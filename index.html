@@ -9,10 +9,12 @@
     <link rel="stylesheet" href="styles/shared/general.css">
     <link rel="stylesheet" href="styles/shared/header.css">
     <link rel="stylesheet" href="styles/shared/footer.css">
-    <link rel="stylesheet" href="styles/top.css">
+    <!-- <link rel="stylesheet" href="styles/top.css"> -->
+    <link rel="stylesheet" href="styles/welcome.css">
     <link rel="stylesheet" href="styles/options.css">
     <link rel="stylesheet" href="styles/animations.css">
-
+    <link rel="stylesheet" href="styles/predictions.css">
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
@@ -44,8 +46,16 @@
         </div>
         <div class="title">College Predicto</div>
       </div>
-
+      
       <div class="right">
+        <div class="search-container">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="college-search" placeholder="Search for colleges...">
+          </div>
+          <button id="search-btn" class="search-btn">Search</button>
+        </div>
+        
         <img id="profile-img" src="logos-pfp/person.svg">
       </div>
     </div>
@@ -63,25 +73,65 @@
 
     <div class="body1">
   
-      <section class="hero-section" id="hero-bg">
-        <div class="hero-content fade-in">
-          <h2>Find Your Perfect College</h2>
-          <p>Get personalized college recommendations based on your preferences and academic performance</p>
-          <div class="search-container">
-            <div class="search-box">
-              <i class="fas fa-search"></i>
-              <input type="text" id="college-search" placeholder="Search for colleges...">
+          
+      <!-- this should be used in the future-->
+      <!--
+      
+      -->
+
+      <!-- New Welcome Section -->
+      <section class="welcome-section">
+        <div class="welcome-container">
+          <div class="welcome-header">
+            <h2>Find Your Perfect Engineering College in AP</h2>
+            <p>Stop worrying about college admissions. Get instant, accurate college predictions based on your rank and preferences. We analyze real cutoff data from previous years to help you make informed decisions.</p>
+          </div>
+          
+          <div class="features-grid">
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-bullseye"></i>
+              </div>
+              <h3 class="feature-title">Accurate Predictions</h3>
+              <p class="feature-text">Our predictions use actual EAMCET/JEE cutoff data from previous years, considering your rank, category, and gender to show colleges where you have real chances.</p>
             </div>
-            <button id="search-btn" class="search-btn">Search</button>
+            
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-code-branch"></i>
+              </div>
+              <h3 class="feature-title">Branch-wise Analysis</h3>
+              <p class="feature-text">Compare cutoff trends across different branches like CSE, ECE, Mechanical etc. See which branches are available at your rank in various colleges.</p>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-chart-bar"></i>
+              </div>
+              <h3 class="feature-title">Category-wise Cutoffs</h3>
+              <p class="feature-text">Get precise cutoff ranks for your category (OC, BC, SC, ST) and gender. Know exactly where you stand based on previous year trends.</p>
+            </div>
+            
+            <div class="feature-card">
+              <div class="feature-icon">
+                <i class="fas fa-info-circle"></i>
+              </div>
+              <h3 class="feature-title">Complete College Info</h3>
+              <p class="feature-text">Access detailed information about fees, facilities, placements, and infrastructure for each college to make well-informed decisions.</p>
+            </div>
+          </div>
+
+          <div class="cta-buttons">
+            <a href="#prediction-section" class="cta-button primary-cta">
+              <i class="fas fa-search"></i> Check Your Colleges
+            </a>
+            <a href="#" class="cta-button secondary-cta">
+              <i class="fas fa-info-circle"></i> How It Works
+            </a>
           </div>
         </div>
       </section>
-
-        <!--
-        <div class="rank-block">
-          <input placeholder="Rank" class="rank" > this is original
-        </div>
-        -->
+  
             <!-- Prediction Form Section -->
       <section class="prediction-section">
         <div class="container">
@@ -239,9 +289,6 @@
                   <option value="" disabled selected>--STATE--</option>
                   <option value="Andhra Pradesh">Andhra pradesh</option>
                   <option value="telengana">Telengana</option>
-                  <option value="kerala">Kerala</option>
-                  <option value="tamil">Tamil Nadu</option>
-                  <option value="karnataka">Karnataka</option>
                 </select>
               </div>
           
@@ -278,9 +325,6 @@
 
             </form>
           </div>
-
-          <!-- Results Section -->
-          <div id="result" class="results-section"></div>
         </div>
       </section>
 
@@ -532,6 +576,8 @@
     <script src="scripts/options.js"></script>
     <script src="scripts/profile.js"></script>
     <script src="scripts/animations.js"></script>
+    <script src="scripts/api.js"></script>
+    <script src="scripts/main.js"></script>
 
     <script> 
 
