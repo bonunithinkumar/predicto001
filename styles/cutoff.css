@@ -1,0 +1,38 @@
+/* these stules only for cutoff button */
+
+.cutoff-button {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.cutoff-button button {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: rgb(0, 89, 255);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0, 89, 255, 0.2);
+}
+
+.cutoff-button button:hover {
+  background: rgb(0, 70, 200);
+  transform: translateX(2px);
+  box-shadow: 0 4px 8px rgba(0, 89, 255, 0.3);
+}
+
+.cutoff-button button i {
+  font-size: 14px;
+  transition: transform 0.3s ease;
+}
+
+.cutoff-button button:hover i {
+  transform: translateX(3px);
+}

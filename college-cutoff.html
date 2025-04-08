@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>College Cutoff Ranks</title>
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/shared/header.css">
+    <link rel="stylesheet" href="styles/shared/footer.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Roboto', sans-serif;
+            background-color: #f5f8ff;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .college-title {
+            color: rgb(0, 18, 51);
+            font-size: 24px;
+            margin-bottom: 30px;
+            padding-left: 15px;
+            border-left: 4px solid rgb(0, 89, 255);
+        }
+
+        .cutoff-table {
+            width: 100%;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            margin-bottom: 30px;
+        }
+
+        .cutoff-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .cutoff-table th {
+            background: rgb(0, 18, 51);
+            color: white;
+            padding: 15px;
+            text-align: left;
+        }
+
+        .cutoff-table td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .cutoff-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .cutoff-table tr:hover {
+            background-color: #f8f9ff;
+        }
+
+        .year-selector {
+            margin-bottom: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .selector-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .selector-label {
+            color: rgb(0, 18, 51);
+            font-weight: 500;
+        }
+
+        .year-selector select {
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+            outline: none;
+            background-color: white;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+        .year-selector select:hover {
+            border-color: rgb(0, 89, 255);
+        }
+
+        .year-selector select:focus {
+            border-color: rgb(0, 89, 255);
+            box-shadow: 0 0 0 2px rgba(0, 89, 255, 0.1);
+        }
+
+        .info-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 20px;
+        }
+
+        .info-card {
+            background: #f8f9ff;
+            border-radius: 8px;
+            padding: 20px;
+            border-left: 4px solid rgb(0, 89, 255);
+        }
+
+        .info-card h3 {
+            color: rgb(0, 18, 51);
+            margin: 0 0 15px 0;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .info-card h3 i {
+            color: rgb(0, 89, 255);
+        }
+
+        .info-card p {
+            margin: 0;
+            color: #444;
+            line-height: 1.6;
+        }
+
+        .info-card ul {
+            margin: 0;
+            padding-left: 20px;
+            color: #444;
+        }
+
+        .info-card li {
+            margin-bottom: 8px;
+        }
+
+        .info-card li:last-child {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 15px;
+                margin: 20px auto;
+            }
+
+            .cutoff-table {
+                overflow-x: auto;
+                display: block;
+            }
+
+            .college-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .cutoff-table th,
+            .cutoff-table td {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .year-selector {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="left">
+            <div class="logo-div">
+                <img class="logo" src="logos/owl-logo.png">
+            </div>
+            <div class="title">College Predicto</div>
+        </div>
+        <div class="right">
+            <img id="profile-img" src="logos-pfp/person.svg">
+        </div>
+    </div>
+
+    <div class="profile-popup" id="profilePopup">
+        <div class="profile-popup-content">
+            <h3>Select Profile Picture</h3>
+            <div class="profile-images">
+                <img src="logos-pfp/pfp3.webp" class="profile-image-option" alt="Profile 1">
+                <img src="logos-pfp/person.svg" class="profile-image-option" alt="Profile 2">
+                <img src="logos-pfp/pfp4.webp" class="profile-image-option" alt="Profile 3">
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="college-title" id="collegeName"></h1>
+        
+        <div class="year-selector">
+            <div class="selector-group">
+                <span class="selector-label">Year:</span>
+                <select id="yearSelect" onchange="updateTable()">
+                    <option value="2023">2023</option>
+                    <option value="2022">2022</option>
+                    <option value="2021">2021</option>
+                </select>
+            </div>
+            <div class="selector-group">
+                <span class="selector-label">Category:</span>
+                <select id="categorySelect" onchange="updateTable()">
+                    <option value="ALL">All Categories</option>
+                    <option value="OC">OC</option>
+                    <option value="BC">BC</option>
+                    <option value="SC">SC</option>
+                    <option value="ST">ST</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="cutoff-table">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Branch</th>
+                        <th>Category</th>
+                        <th>Opening Rank</th>
+                        <th>Closing Rank</th>
+                    </tr>
+                </thead>
+                <tbody id="cutoffData">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="info-section">
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3><i class="fas fa-info-circle"></i> About Cutoff Ranks</h3>
+                    <p>Cutoff ranks are the minimum ranks required for admission to different branches. The opening rank is the highest rank (lowest number) that secured admission, while the closing rank is the lowest rank (highest number) that was admitted.</p>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-calendar-alt"></i> Important Dates</h3>
+                    <ul>
+                        <li>AP EAMCET Registration: March 2024</li>
+                        <li>AP EAMCET Exam: May 2024</li>
+                        <li>Results Declaration: June 2024</li>
+                        <li>Counseling Process: July 2024</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-file-alt"></i> Required Documents</h3>
+                    <ul>
+                        <li>AP EAMCET Rank Card</li>
+                        <li>10th & 12th Mark Sheets</li>
+                        <li>Transfer Certificate</li>
+                        <li>Category Certificate (if applicable)</li>
+                        <li>Passport Size Photographs</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-graduation-cap"></i> Course Details</h3>
+                    <ul>
+                        <li>Duration: 4 Years</li>
+                        <li>Intake Capacity: 60-120 students per branch</li>
+                        <li>Mode: Full-time Regular</li>
+                        <li>Affiliation: JNTU Kakinada</li>
+                        <li>Approval: AICTE</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-hand-holding-usd"></i> Fee Structure</h3>
+                    <ul>
+                        <li>Tuition Fee: ₹35,000 - ₹45,000 per year</li>
+                        <li>Hostel Fee: ₹15,000 - ₹25,000 per year</li>
+                        <li>Transportation: Available (Optional)</li>
+                        <li>Scholarships: Available for meritorious students</li>
+                    </ul>
+                </div>
+
+                <div class="info-card">
+                    <h3><i class="fas fa-phone-alt"></i> Contact Information</h3>
+                    <ul>
+                        <li>Admission Office: +91-XXX-XXX-XXXX</li>
+                        <li>Email: admissions@college.edu</li>
+                        <li>Website: www.college.edu</li>
+                        <li>Address: College Name, City, State</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">About Us</h3>
+                <p>College Predict is a platform designed to help students find and compare colleges in Andhra Pradesh. Our mission is to make college selection easier and more informed.</p>
+            </div>
+            <!--
+            <div class="footer-section">
+                <h3 class="footer-title">Our Team</h3>
+                <ul class="team-members">
+                    <li class="team-member">
+                        <span>Hari</span>
+                        <span class="member-role">Full Stack Developer</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Sai Teja</span>
+                        <span class="member-role">UI/UX Designer</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Praveen</span>
+                        <span class="member-role">Backend Developer</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Sai Krishna</span>
+                        <span class="member-role">Frontend Developer</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Harsha</span>
+                        <span class="member-role">Database Administrator</span>
+                    </li>
+                </ul>
+            </div>
+            -->
+            <div class="footer-section">
+                <h3 class="footer-title">Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 College Predict. All rights reserved.</p>
+        </div>
+    </footer>
+    
+    <script src="data-js/college-cutoffs.js"></script>
+    <script src="scripts/profile.js"></script>
+
+    <script>
+
+        // Update college name in title
+        document.getElementById('collegeName').textContent = 
+            collegeName ? collegeName.toUpperCase() + ' - Cutoff Ranks' : 'College Cutoff Ranks';
+
+        function updateTable() {
+            const year = document.getElementById('yearSelect').value;
+            const category = document.getElementById('categorySelect').value;
+            const tbody = document.getElementById('cutoffData');
+            tbody.innerHTML = '';
+
+            if (collegeName && cutoffData[collegeName.toLowerCase()] && cutoffData[collegeName.toLowerCase()][year]) {
+                const filteredData = category === 'ALL' 
+                    ? cutoffData[collegeName.toLowerCase()][year]
+                    : cutoffData[collegeName.toLowerCase()][year].filter(row => row.category === category);
+
+                if (filteredData.length > 0) {
+                    filteredData.forEach(row => {
+                        tbody.innerHTML += `
+                            <tr>
+                                <td>${row.branch}</td>
+                                <td>${row.category}</td>
+                                <td>${row.openingRank}</td>
+                                <td>${row.closingRank}</td>
+                            </tr>
+                        `;
+                    });
+                } else {
+                    tbody.innerHTML = '<tr><td colspan="4">No data available for selected category</td></tr>';
+                }
+            } else {
+                tbody.innerHTML = '<tr><td colspan="4">No data available for this year</td></tr>';
+            }
+        }
+
+        // Initial table load
+        updateTable();
+
+    </script>
+</body>
+</html> 

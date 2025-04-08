@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    
+    <title>Predict</title>
+
+    <link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/shared/header.css">
+    <link rel="stylesheet" href="styles/shared/footer.css">
+    <link rel="stylesheet" href="styles/top.css">
+    <link rel="stylesheet" href="styles/options.css">
+    <link rel="stylesheet" href="styles/animations.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    
+ 
+
+  </head>
+  <body>
+
+    <div class="header">
+      <div class="left">
+        <div class="logo-div">
+          <img class="logo" src="logos/owl-logo.png">
+        </div>
+        <div class="title">College Predicto</div>
+      </div>
+
+      <div class="right">
+        <img id="profile-img" src="logos-pfp/person.svg">
+      </div>
+    </div>
+
+    <div class="profile-popup" id="profilePopup">
+        <div class="profile-popup-content">
+            <h3>Select Profile Picture</h3>
+            <div class="profile-images">
+                <img src="logos-pfp/pfp3.webp" class="profile-image-option" alt="Profile 1">
+                <img src="logos-pfp/person.svg" class="profile-image-option" alt="Profile 2">
+                <img src="logos-pfp/pfp4.webp" class="profile-image-option" alt="Profile 3">
+            </div>
+        </div>
+    </div>
+
+    <div class="body1">
+  
+      <section class="hero-section" id="hero-bg">
+        <div class="hero-content fade-in">
+          <h2>Find Your Perfect College</h2>
+          <p>Get personalized college recommendations based on your preferences and academic performance</p>
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="college-search" placeholder="Search for colleges...">
+            </div>
+            <button id="search-btn" class="search-btn">Search</button>
+          </div>
+        </div>
+      </section>
+
+        <!--
+        <div class="rank-block">
+          <input placeholder="Rank" class="rank" > this is original
+        </div>
+        -->
+            <!-- Prediction Form Section -->
+      <section class="prediction-section">
+        <div class="container">
+          <div class="form-container fade-in delay-1">
+            <h3>Enter Your Details</h3>  
+            <form id="collegepredictorform">
+
+              <div class="form__group field">
+                <input 
+                  type="number" 
+                  name="rank"  
+                  class="form__field" 
+                  placeholder="Rank" 
+                  required=""
+                  min="1"
+                  onkeypress="return event.charCode >= 48"
+                  oninput="validity.valid||(value='');"
+                >
+                <label for="Rank" class="form__label">Rank</label>
+              </div>
+
+              <p class="options-info">Gender</p>
+
+              <div class="gender">
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="gender"
+                    value="male"
+                    checked
+                  />
+                  <p class="gender-text">Male</p>
+                </label>
+
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="gender"
+                    value="female"
+                  />
+                  <p class="gender-text">Female</p>
+                </label>
+
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="gender"
+                    value="others"
+                  />
+                  <p class="gender-text">Others</p>
+                </label>
+              </div>
+
+              <p class="options-info">Prefered district</p>
+              <div class="district-category">
+                <label class="other-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="district"
+                    value="all"
+                    checked
+                    onclick="displayhtml();"
+                  />
+                  <p class="gender-text">All districts</p>
+                </label>
+                <label class="other-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="district"
+                    value="specific"
+                    onclick = "displayhtml();"
+                  />
+                  <p class="gender-text">Specific districts</p>
+                </label>
+                <div class="displayed-district"></div>
+                
+              </div>
+
+              <p class="options-info">Category</p>
+
+              <div class="category">
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="category"
+                    value="general"
+                    checked
+                  />
+                  <p class="gender-text">General</p>
+                </label>
+
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="category"
+                    value="obc"
+                  />
+                  <p class="gender-text">OBC</p>
+                </label>
+
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="category"
+                    value="sc"
+                  />
+                  <p class="gender-text">SC</p>
+                </label>
+                <label class="gender-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="category"
+                    value="st"
+                  />
+                  <p class="gender-text">ST</p>
+                </label>
+              </div>
+
+              <p class="options-info">Physical disability</p>
+              <div class="other-category">
+                <label class="other-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="other-category"
+                    value="yes"
+                    checked
+                  />
+                  <p class="gender-text">Yes</p>
+                </label>
+                <label class="other-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="other-category"
+                    value="no"
+                    checked
+                  />
+                  <p class="gender-text">No</p>
+                </label>
+                
+              </div>
+
+              <div class="select-state">
+                <select name="state" required>
+                  <option value="" disabled selected>--STATE--</option>
+                  <option value="Andhra Pradesh">Andhra pradesh</option>
+                  <option value="telengana">Telengana</option>
+                  <option value="kerala">Kerala</option>
+                  <option value="tamil">Tamil Nadu</option>
+                  <option value="karnataka">Karnataka</option>
+                </select>
+              </div>
+          
+              <p class="options-info">Prefered branch</p>
+              <div class="branch-category">
+                <label class="other-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="branch"
+                    value="all"
+                    checked
+                    onclick="displayhtml();"
+                  />
+                  <p class="gender-text gender-text-js">All branches</p>
+                </label>
+                <label class="other-block">
+                  <input
+                    type="radio"
+                    class="radio-input"
+                    name="branch"
+                    value="specific"
+                    onclick="displayhtml();"
+                  />
+                  <p class="gender-text gender-text-js">Specific branches</p>
+                </label>
+                <div class="select-prefered-branch"></div>
+                
+              </div>
+
+              <div class="predict-button">
+                <button type="submit">Predict</button>
+              </div>
+
+            </form>
+          </div>
+
+          <!-- Results Section -->
+          <div id="result" class="results-section"></div>
+        </div>
+      </section>
+
+      <!-- Interactive FAQ Section -->
+      <section class="faq-section">
+        <div class="container">
+          <h3 class="fade-in">Frequently Asked Questions</h3>
+          <div class="faq-grid">
+            <div class="faq-item fade-in delay-1">
+              <div class="faq-question">
+                <h4>How to choose between colleges with similar ranks?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Consider factors like:</p>
+                <ul>
+                  <li>Campus placement history</li>
+                  <li>Industry connections</li>
+                  <li>Research facilities</li>
+                  <li>Location and accessibility</li>
+                  <li>Alumni network strength</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item fade-in delay-2">
+              <div class="faq-question">
+                <h4>What are the top factors in branch selection?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Key factors to consider:</p>
+                <ul>
+                  <li>Your interests and strengths</li>
+                  <li>Future job prospects</li>
+                  <li>Industry growth potential</li>
+                  <li>Scope for higher studies</li>
+                  <li>Starting salary packages</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item fade-in delay-3">
+              <div class="faq-question">
+                <h4>How important are college facilities?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Essential facilities to check:</p>
+                <ul>
+                  <li>Laboratory infrastructure</li>
+                  <li>Library resources</li>
+                  <li>Internet and computing facilities</li>
+                  <li>Hostel accommodation</li>
+                  <li>Sports and recreation</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="faq-item fade-in delay-4">
+              <div class="faq-question">
+                <h4>What about campus life and culture?</h4>
+                <i class="fas fa-chevron-down"></i>
+              </div>
+              <div class="faq-answer">
+                <p>Important aspects include:</p>
+                <ul>
+                  <li>Student clubs and activities</li>
+                  <li>Technical festivals</li>
+                  <li>Cultural events</li>
+                  <li>Industry exposure</li>
+                  <li>Mentorship programs</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- College Comparison Guide -->
+      <section class="comparison-guide">
+        <div class="container">
+          <h3 class="fade-in">College Comparison Guide</h3>
+          <div class="comparison-grid">
+            <div class="comparison-card fade-in delay-1">
+              <div class="comparison-icon">
+                <i class="fas fa-chart-line"></i>
+              </div>
+              <h4>Placement Statistics</h4>
+              <ul>
+                <li>Average package trends</li>
+                <li>Top recruiters</li>
+                <li>Branch-wise placements</li>
+                <li>Internship opportunities</li>
+              </ul>
+              <button class="compare-btn">Compare Colleges</button>
+            </div>
+
+            <div class="comparison-card fade-in delay-2">
+              <div class="comparison-icon">
+                <i class="fas fa-flask"></i>
+              </div>
+              <h4>Research & Innovation</h4>
+              <ul>
+                <li>Research publications</li>
+                <li>Patent filings</li>
+                <li>Industry projects</li>
+                <li>Lab facilities</li>
+              </ul>
+              <button class="compare-btn">View Details</button>
+            </div>
+
+            <div class="comparison-card fade-in delay-3">
+              <div class="comparison-icon">
+                <i class="fas fa-users"></i>
+              </div>
+              <h4>Student Life</h4>
+              <ul>
+                <li>Hostel facilities</li>
+                <li>Campus activities</li>
+                <li>Sports facilities</li>
+                <li>Student clubs</li>
+              </ul>
+              <button class="compare-btn">Explore More</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Student Information Section -->
+      <section class="student-info-section">
+        <div class="container">
+          <div class="student-info-container">
+            <h3 class="fade-in">Important Information for Students</h3>
+            
+            <div class="info-grid">
+              <div class="info-card fade-in delay-1">
+                <h4><i class="fas fa-calendar-alt"></i> Important Dates</h4>
+                <ul>
+                  <li>EAPCET Counselling Registration: July 15 - July 30</li>
+                  <li>Document Verification: Aug 1 - Aug 10</li>
+                  <li>Web Options Selection: Aug 12 - Aug 15</li>
+                  <li>Seat Allotment: Aug 20</li>
+                  <li>College Joining: Aug 25 - Sept 5</li>
+                </ul>
+              </div>
+
+              <div class="info-card fade-in delay-2">
+                <h4><i class="fas fa-graduation-cap"></i> College Selection Tips</h4>
+                <ul>
+                  <li>Research college NAAC accreditation</li>
+                  <li>Check placement records and packages</li>
+                  <li>Consider college infrastructure and labs</li>
+                  <li>Look for industry partnerships</li>
+                  <li>Evaluate faculty expertise and research</li>
+                </ul>
+              </div>
+
+              <div class="info-card fade-in delay-3">
+                <h4><i class="fas fa-book-reader"></i> Branch Selection Guide</h4>
+                <ul>
+                  <li>CSE/IT: High demand, excellent packages</li>
+                  <li>ECE/EEE: Core electronics opportunities</li>
+                  <li>Mechanical: Traditional engineering roles</li>
+                  <li>AI/ML: Future-focused technology</li>
+                  <li>Civil: Infrastructure development</li>
+                </ul>
+              </div>
+
+              <div class="info-card fade-in delay-4">
+                <h4><i class="fas fa-clipboard-check"></i> Required Documents</h4>
+                <ul>
+                  <li>EAPCET Rank Card</li>
+                  <li>Intermediate/10+2 Certificates</li>
+                  <li>Category Certificate (if applicable)</li>
+                  <li>Income Certificate</li>
+                  <li>Aadhar Card</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="info-note">
+              <p><i class="fas fa-info-circle"></i> <strong>Note:</strong> The above information is for reference. Always verify dates and requirements from official sources.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">About Us</h3>
+                <p>College Predict is a platform designed to help students find and compare colleges in Andhra Pradesh. Our mission is to make college selection easier and more informed.</p>
+            </div>
+            <!--
+            <div class="footer-section">
+                <h3 class="footer-title">Our Team</h3>
+                <ul class="team-members">
+                    <li class="team-member">
+                        <span>Hari</span>
+                        <span class="member-role">Full Stack Developer</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Sai Teja</span>
+                        <span class="member-role">UI/UX Designer</span>
+                    </li>
+                    <li class="team-member">
+                        <span>Praveen</span>
+                        <span class="member-role">Backend Developer</span>
+                    </li>
+                    <li class="team-member">
+                      <span>Sai Krishna</span>
+                      <span class="member-role">Frontend Developer</span>
+                  </li>
+                  <li class="team-member">
+                      <span>Harsha</span>
+                      <span class="member-role">Database Administrator</span>
+                  </li>
+                </ul>
+            </div>
+            -->
+            <div class="footer-section">
+                <h3 class="footer-title">Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="LinkedIn">
+                        <i class="fab fa-linkedin-in"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="GitHub">
+                        <i class="fab fa-github"></i>
+                    </a>
+                    <a href="#" class="social-icon" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 College Predict. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="scripts/options.js"></script>
+    <script src="scripts/profile.js"></script>
+    <script src="scripts/animations.js"></script>
+
+    <script> 
+
+      /* form details */
+
+      document.getElementById("collegepredictorform").addEventListener("submit", function (event) {
+          event.preventDefault(); // Prevent page reload
+
+          // Collect form data
+          const formData = new FormData(event.target);
+          const rank = formData.get("rank");
+          const gender = formData.get("gender");
+          const category = formData.get("category");
+          const disability = formData.get("other-category");
+          const state = formData.get("state");
+          const college = formData.get("college");
+
+          // Get selected district (handles dynamically generated select)
+          let district = document.querySelector('input[name="district"]:checked').value;
+          let districtSelect = document.querySelector('select[name="district-select"]');
+          if (districtSelect) {
+              district = districtSelect.value; // Update if specific district selected
+          }
+
+          // Get selected branch (handles dynamically generated select)
+          let branch = document.querySelector('input[name="branch"]:checked').value;
+          let branchSelect = document.querySelector('select[name="branch"]');
+          if (branchSelect) {
+              branch = branchSelect.value; // Update if specific branch selected
+          }
+
+          // Generate result table
+          const tableHTML = `
+              <table border="1" cellspacing="0" cellpadding="5">
+                  <tr><th>Field</th><th>Value</th></tr>
+                  <tr><td>Rank</td><td>${rank}</td></tr>
+                  <tr><td>Gender</td><td>${gender}</td></tr>
+                  <tr><td>District Preference</td><td>${district}</td></tr>
+                  <tr><td>Category</td><td>${category}</td></tr>
+                  <tr><td>Physical Disability</td><td>${disability}</td></tr>
+                  <tr><td>State</td><td>${state}</td></tr>
+                  <tr><td>Preferred College</td><td>${college}</td></tr>
+                  <tr><td>Branch Preference</td><td>${branch}</td></tr>
+              </table>
+          `;
+
+          document.getElementById("result").innerHTML = tableHTML;
+        });
+
+
+
+
+      /* search college*/
+      document.getElementById('search-btn').addEventListener('click', function() {
+        const searchTerm = document.getElementById('college-search').value.trim().toLowerCase();
+        
+        // Define available colleges with their variations
+        const availableColleges = {
+          'vignan': ['vignan', 'viit', 'vignan institute', 'vignan institute of information technology'],
+          'anits': ['anits', 'anil neerukonda', 'anil neerukonda institute', 'anil neerukonda institute of technology and sciences'],
+          'gvp': ['gvp', 'gayatri', 'gayatri vidya parishad', 'gvp college of engineering'],
+          'raghu': ['raghu', 'rec', 'raghu engineering', 'raghu engineering college'],
+          'mvgr': ['mvgr', 'mvgr college', 'mvgr engineering', 'mvgr college of engineering'],
+          'gitam': ['gitam', 'gitam university', 'gandhi institute of technology']
+        };
+
+        if (!searchTerm) {
+          alert("Please enter a college name.");
+          return;
+        }
+
+        // Find matching college
+        let matchedCollege = null;
+        for (const [key, variations] of Object.entries(availableColleges)) {
+          if (variations.some(v => searchTerm.includes(v))) {
+            matchedCollege = key;
+            break;
+          }
+        }
+
+        if (matchedCollege) {
+          window.location.href = `college-details.html?college=${encodeURIComponent(matchedCollege)}`;
+        } else {
+          alert("College not found in our database. Please try another college name.");
+        }
+      });
+
+
+    </script>
+
+  <!--
+    <script src="scripts/r13.js"></script>
+    <script src="scripts/clouds2.js"></script>
+    <script>
+    VANTA.BIRDS({
+      el: "#hero-bg",
+      mouseControls: true,
+      touchControls: true,
+      gyroControls: false,
+      minHeight: 350.00,
+      minWidth: 200.00,
+      scale: 1.00,
+      scaleMobile: 1.00
+    })
+    </script>
+  -->
+    
+  </body>
+</html>

@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="grad2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#34a853;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#1b5e20;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <circle cx="150" cy="150" r="150" fill="url(#grad2)"/>
+  
+  <!-- Layered Geometric Elements -->
+  <polygon points="150,60 80,110 80,190 150,240 220,190 220,110" fill="none" stroke="#ffffff" stroke-width="2" stroke-opacity="0.3"/>
+  <polygon points="150,80 100,120 100,180 150,220 200,180 200,120" fill="none" stroke="#ffffff" stroke-width="2" stroke-opacity="0.4"/>
+  <polygon points="150,100 120,130 120,170 150,200 180,170 180,130" fill="none" stroke="#ffffff" stroke-width="2" stroke-opacity="0.5"/>
+  
+  <!-- Accent Shapes -->
+  <circle cx="150" cy="150" r="30" fill="#ffffff" fill-opacity="0.1"/>
+  <circle cx="150" cy="150" r="15" fill="#ffffff" fill-opacity="0.2"/>
+  
+  <!-- Texture Lines -->
+  <path d="M80,80 L220,220 M80,220 L220,80" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  <path d="M40,150 L260,150 M150,40 L150,260" stroke="#ffffff" stroke-width="1" stroke-opacity="0.15"/>
+  
+  <!-- Dotted Grid -->
+  <g fill="#ffffff" fill-opacity="0.2">
+    <circle cx="50" cy="50" r="2"/>
+    <circle cx="100" cy="50" r="2"/>
+    <circle cx="150" cy="50" r="2"/>
+    <circle cx="200" cy="50" r="2"/>
+    <circle cx="250" cy="50" r="2"/>
+    
+    <circle cx="50" cy="100" r="2"/>
+    <circle cx="100" cy="100" r="2"/>
+    <circle cx="150" cy="100" r="2"/>
+    <circle cx="200" cy="100" r="2"/>
+    <circle cx="250" cy="100" r="2"/>
+    
+    <circle cx="50" cy="150" r="2"/>
+    <circle cx="100" cy="150" r="2"/>
+    <circle cx="150" cy="150" r="2"/>
+    <circle cx="200" cy="150" r="2"/>
+    <circle cx="250" cy="150" r="2"/>
+    
+    <circle cx="50" cy="200" r="2"/>
+    <circle cx="100" cy="200" r="2"/>
+    <circle cx="150" cy="200" r="2"/>
+    <circle cx="200" cy="200" r="2"/>
+    <circle cx="250" cy="200" r="2"/>
+    
+    <circle cx="50" cy="250" r="2"/>
+    <circle cx="100" cy="250" r="2"/>
+    <circle cx="150" cy="250" r="2"/>
+    <circle cx="200" cy="250" r="2"/>
+    <circle cx="250" cy="250" r="2"/>
+  </g>
+</svg>

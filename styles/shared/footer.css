@@ -1,0 +1,266 @@
+.footer {
+    background: #1a1a1a;
+    color: white;
+    padding: 30px 0 10px;
+    margin-top: 30px;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    min-height: fit-content;
+    height: auto;
+    max-width: 100vw;
+    box-sizing: border-box;
+}
+
+.footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(to right, transparent, #ffffff, transparent);
+}
+
+.footer-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 30px;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.footer-section {
+    flex: 1;
+    min-width: 250px;
+    transform: translateY(0);
+    transition: transform 0.3s ease;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.footer-section:hover {
+    transform: translateY(-5px);
+}
+
+.footer-title {
+    font-size: 1.2em;
+    margin-bottom: 15px;
+    color: #ffffff;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+    position: relative;
+}
+
+.footer-title::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background: #ffffff;
+    transition: width 0.3s ease;
+}
+
+.footer-section:hover .footer-title::after {
+    width: 100%;
+}
+
+.team-members {
+    list-style: none;
+    padding: 0;
+}
+
+.team-member {
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.9;
+    transition: opacity 0.3s ease;
+}
+
+.team-member:hover {
+    opacity: 1;
+}
+
+.member-role {
+    font-size: 0.85em;
+    color: #cccccc;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.social-icon {
+    color: white;
+    font-size: 18px;
+    transition: all 0.3s ease;
+    width: 35px;
+    height: 35px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.social-icon::before {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #ffffff;
+    transition: transform 0.3s ease;
+}
+
+.social-icon:hover {
+    transform: translateY(-3px);
+    color: #1a1a1a;
+}
+
+.social-icon:hover::before {
+    transform: translateY(-100%);
+}
+
+.social-icon i {
+    position: relative;
+    z-index: 1;
+}
+
+.footer-bottom {
+    text-align: center;
+    margin-top: 25px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.85em;
+    color: #cccccc;
+}
+
+@media (max-width: 768px) {
+    .footer {
+        padding: 25px 0 20px;
+        margin-top: 20px;
+        height: auto;
+        min-height: fit-content;
+    }
+
+    .footer-content {
+        flex-direction: column;
+        gap: 25px;
+        padding: 0 15px;
+        height: auto;
+    }
+
+    .footer-section {
+        min-width: 100%;
+        margin-bottom: 20px;
+        padding: 0;
+        height: auto;
+    }
+
+    .footer-title {
+        font-size: 1.1em;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+    }
+
+    .footer-section p {
+        font-size: 0.9em;
+        line-height: 1.5;
+        margin-bottom: 12px;
+        max-width: 100%;
+    }
+
+    .team-members {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .team-member {
+        margin-bottom: 0;
+        padding: 5px 0;
+    }
+
+    .social-icons {
+        flex-wrap: wrap;
+        gap: 15px;
+        margin-top: 15px;
+        justify-content: flex-start;
+        padding: 5px 0;
+    }
+
+    .social-icon {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+
+    .footer-bottom {
+        margin-top: 25px;
+        padding-top: 15px;
+        font-size: 0.85em;
+    }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+    .footer {
+        padding: 30px 0 25px;
+        height: auto;
+        min-height: fit-content;
+    }
+
+    .footer-content {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+        padding: 0 25px;
+        height: auto;
+    }
+
+    .footer-section {
+        min-width: 0;
+        margin-bottom: 20px;
+        height: auto;
+    }
+
+    .footer-section:last-child {
+        grid-column: 1 / -1;
+        text-align: center;
+        margin-bottom: 0;
+    }
+
+    .team-members {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .social-icons {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .footer-bottom {
+        margin-top: 30px;
+    }
+} 
