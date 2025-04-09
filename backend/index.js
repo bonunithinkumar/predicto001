@@ -92,9 +92,10 @@ app.get("/search", async (req, res) => {
 // Predict colleges based on rank and category
 app.post("/predict", async (req, res) => {
   try {
-    const { rank, category, gender } = req.body;
-    console.log('Received request:', { rank, category, gender });
-
+    const { rank, category, gender, page = 1 } = req.body;
+    const limit = 15; // Number of colleges per page
+    const skip = (parseInt(page) - 1) * limit;
+    
     if (!rank || !category || !gender) {
       return res.status(400).json({ 
         message: "Missing required fields: rank, category, and gender are required" 
@@ -103,7 +104,6 @@ app.post("/predict", async (req, res) => {
 
     // Get the category prefixes based on input category
     const categoryPrefixes = CATEGORY_MAPPING[category.toLowerCase()];
-    console.log('Category prefixes:', categoryPrefixes);
 
     if (!categoryPrefixes) {
       return res.status(400).json({ 
@@ -113,15 +113,17 @@ app.post("/predict", async (req, res) => {
 
     // Construct the query for all relevant category fields
     const genderSuffix = gender.toUpperCase() === 'MALE' ? '_BOYS' : '_GIRLS';
-    console.log('Gender suffix:', genderSuffix);
     
     // Create an OR query for all applicable categories
     const orConditions = categoryPrefixes.map(prefix => ({
       [`${prefix}${genderSuffix}`]: { $gte: parseInt(rank) }
     }));
-    console.log('Query conditions:', JSON.stringify(orConditions, null, 2));
 
-    // Find colleges that match any of the category conditions
+    // Get total count for pagination
+    const totalColleges = await College.countDocuments({ $or: orConditions });
+    const totalPages = Math.ceil(totalColleges / limit);
+
+    // Find colleges that match any of the category conditions with pagination
     const colleges = await College.find({ $or: orConditions })
       .select(`
         inst_name 
@@ -133,9 +135,8 @@ app.post("/predict", async (req, res) => {
         ${categoryPrefixes.map(prefix => `${prefix}${genderSuffix}`).join(' ')}
       `)
       .sort({ [`${categoryPrefixes[0]}${genderSuffix}`]: 1 })
-      .limit(50);
-
-    console.log('Found colleges:', colleges.length);
+      .skip(skip)
+      .limit(limit);
 
     // Transform the results to include the best matching cutoff
     const transformedColleges = colleges.map(college => {
@@ -158,18 +159,24 @@ app.post("/predict", async (req, res) => {
       };
     });
 
-    console.log('Transformed colleges:', transformedColleges.length);
-
     if (transformedColleges.length === 0) {
       return res.json({
         message: "No colleges found matching your criteria",
-        colleges: []
+        colleges: [],
+        currentPage: parseInt(page),
+        totalPages: 0,
+        totalColleges: 0,
+        hasMore: false
       });
     }
 
     res.json({
-      message: `Found ${transformedColleges.length} colleges matching your criteria`,
-      colleges: transformedColleges
+      message: `Found ${totalColleges} colleges matching your criteria (showing ${skip + 1}-${Math.min(skip + limit, totalColleges)})`,
+      colleges: transformedColleges,
+      currentPage: parseInt(page),
+      totalPages,
+      totalColleges,
+      hasMore: parseInt(page) < totalPages
     });
 
   } catch (err) {

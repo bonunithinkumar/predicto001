@@ -52,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Function to display predictions
 function displayPredictions(response) {
-    const { message, colleges } = response;
+    const { message, colleges, currentPage, totalPages, totalColleges, hasMore } = response;
     const resultsSection = document.createElement('section');
     resultsSection.className = 'results-section';
 
@@ -61,7 +61,7 @@ function displayPredictions(response) {
         <h2>Colleges Matching Your Criteria</h2>
         <p>${message}</p>
         <div class="results-info">
-            <p>Showing 1 to ${colleges.length} colleges</p>
+            <p>Showing ${(currentPage - 1) * 15 + 1} to ${Math.min(currentPage * 15, totalColleges)} of ${totalColleges} colleges</p>
             <div class="sort-controls">
                 <label>Sort by:</label>
                 <select id="sortSelect">
@@ -90,7 +90,7 @@ function displayPredictions(response) {
             <tbody>
                 ${colleges.map((college, index) => `
                     <tr>
-                        <td>${index + 1}</td>
+                        <td>${(currentPage - 1) * 15 + index + 1}</td>
                         <td>
                             <div class="college-name">
                                 <strong>${college.inst_name}</strong>
@@ -108,8 +108,15 @@ function displayPredictions(response) {
         </table>
     `;
 
+    // Add Show More button if there are more pages
+    const showMoreButton = hasMore ? `
+        <div class="show-more-container">
+            <button id="showMoreBtn" class="show-more-btn">Show More Colleges</button>
+        </div>
+    ` : '';
+
     // Combine all content
-    resultsSection.innerHTML = headerContent + tableContent;
+    resultsSection.innerHTML = headerContent + tableContent + showMoreButton;
 
     // Add event listener for sorting
     setTimeout(() => {
@@ -129,7 +136,42 @@ function displayPredictions(response) {
                             return 0;
                     }
                 });
-                displayPredictions({ message, colleges: sortedColleges });
+                displayPredictions({ 
+                    message, 
+                    colleges: sortedColleges, 
+                    currentPage, 
+                    totalPages, 
+                    totalColleges, 
+                    hasMore 
+                });
+            });
+        }
+
+        // Add event listener for Show More button
+        const showMoreBtn = document.getElementById('showMoreBtn');
+        if (showMoreBtn) {
+            showMoreBtn.addEventListener('click', async () => {
+                showLoading();
+                try {
+                    // Get form data
+                    const form = document.getElementById('collegepredictorform');
+                    const formData = {
+                        rank: form.querySelector('input[name="rank"]').value,
+                        gender: form.querySelector('input[name="gender"]:checked').value,
+                        category: form.querySelector('input[name="category"]:checked').value,
+                        page: currentPage + 1
+                    };
+
+                    // Get next page of predictions
+                    const nextPagePredictions = await predictColleges(formData);
+                    
+                    // Display updated results
+                    displayPredictions(nextPagePredictions);
+                } catch (error) {
+                    showError(error.message);
+                } finally {
+                    hideLoading();
+                }
             });
         }
     }, 0);

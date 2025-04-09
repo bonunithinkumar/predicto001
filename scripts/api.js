@@ -12,7 +12,8 @@ async function predictColleges(formData) {
             body: JSON.stringify({
                 rank: parseInt(formData.rank),
                 category: formData.category,
-                gender: formData.gender
+                gender: formData.gender,
+                page: formData.page || 1
             })
         });
 
