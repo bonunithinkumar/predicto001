@@ -92,7 +92,7 @@ app.get("/search", async (req, res) => {
 // Predict colleges based on rank and category
 app.post("/predict", async (req, res) => {
   try {
-    const { rank, category, gender, page = 1 } = req.body;
+    const { rank, category, gender, page = 1, district = 'all', branch = 'all' } = req.body;
     const limit = 15; // Number of colleges per page
     const skip = (parseInt(page) - 1) * limit;
     
@@ -119,12 +119,25 @@ app.post("/predict", async (req, res) => {
       [`${prefix}${genderSuffix}`]: { $gte: parseInt(rank) }
     }));
 
+    // Build the main query
+    let query = { $or: orConditions };
+
+    // Add district filter if specified
+    if (district !== 'all') {
+      query.district = district;
+    }
+
+    // Add branch filter if specified
+    if (branch !== 'all') {
+      query.branch_code = branch;
+    }
+
     // Get total count for pagination
-    const totalColleges = await College.countDocuments({ $or: orConditions });
+    const totalColleges = await College.countDocuments(query);
     const totalPages = Math.ceil(totalColleges / limit);
 
-    // Find colleges that match any of the category conditions with pagination
-    const colleges = await College.find({ $or: orConditions })
+    // Find colleges that match the conditions with pagination
+    const colleges = await College.find(query)
       .select(`
         inst_name 
         type 

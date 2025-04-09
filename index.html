@@ -197,7 +197,7 @@
                     name="district"
                     value="all"
                     checked
-                    onclick="displayhtml();"
+                    onclick="toggleDistrictSelect()"
                   />
                   <p class="gender-text">All districts</p>
                 </label>
@@ -207,12 +207,26 @@
                     class="radio-input"
                     name="district"
                     value="specific"
-                    onclick = "displayhtml();"
+                    onclick="toggleDistrictSelect()"
                   />
-                  <p class="gender-text">Specific districts</p>
+                  <p class="gender-text">Specific district</p>
                 </label>
-                <div class="displayed-district"></div>
-                
+                <div class="district-select-container" style="display: none;">
+                  <select name="district-select" class="district-select">
+                    <option value="" disabled selected>Select District</option>
+                    <option value="ATP">Anantapur</option>
+                    <option value="CTR">Chittoor</option>
+                    <option value="EG">East Godavari</option>
+                    <option value="GTR">Guntur</option>
+                    <option value="KDP">Kadapa</option>
+                    <option value="NLR">Nellore</option>
+                    <option value="PKS">Prakasam</option>
+                    <option value="SKL">Srikakulam</option>
+                    <option value="WG">West Godavari</option>
+                    <option value="VSK">Visakhapatnam</option>
+                    <option value="VJG">Vijayanagaram</option>
+                  </select>
+                </div>
               </div>
 
               <p class="options-info">Category</p>
@@ -301,9 +315,9 @@
                     name="branch"
                     value="all"
                     checked
-                    onclick="displayhtml();"
+                    onclick="toggleBranchSelect()"
                   />
-                  <p class="gender-text gender-text-js">All branches</p>
+                  <p class="gender-text">All branches</p>
                 </label>
                 <label class="other-block">
                   <input
@@ -311,12 +325,21 @@
                     class="radio-input"
                     name="branch"
                     value="specific"
-                    onclick="displayhtml();"
+                    onclick="toggleBranchSelect()"
                   />
-                  <p class="gender-text gender-text-js">Specific branches</p>
+                  <p class="gender-text">Specific branch</p>
                 </label>
-                <div class="select-prefered-branch"></div>
-                
+                <div class="branch-select-container" style="display: none;">
+                  <select name="branch-select" class="branch-select">
+                    <option value="" disabled selected>Select Branch</option>
+                    <option value="CIV">Civil Engineering</option>
+                    <option value="CSE">Computer Science Engineering</option>
+                    <option value="CSM">Computer Science & Engineering (AI & ML)</option>
+                    <option value="ECE">Electronics & Communication Engineering</option>
+                    <option value="EEE">Electrical & Electronics Engineering</option>
+                    <option value="MEC">Mechanical Engineering</option>
+                  </select>
+                </div>
               </div>
 
               <div class="predict-button">

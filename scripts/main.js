@@ -4,6 +4,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const form = document.getElementById('collegepredictorform');
     const searchBtn = document.getElementById('search-btn');
     const searchInput = document.getElementById('college-search');
+    const ctaButton = document.querySelector('.primary-cta');
+
+    // Handle CTA button click
+    if (ctaButton) {
+        ctaButton.addEventListener('click', (e) => {
+            e.preventDefault();
+            window.scrollBy({ 
+                top: 300, // Scroll down by 300 pixels
+                behavior: 'smooth'
+            });
+        });
+    }
 
     // Handle form submission
     form.addEventListener('submit', async (e) => {
@@ -17,14 +29,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const formData = {
                 rank: form.querySelector('input[name="rank"]').value,
                 gender: form.querySelector('input[name="gender"]:checked').value,
-                category: form.querySelector('input[name="category"]:checked').value
+                category: form.querySelector('input[name="category"]:checked').value,
+                district: form.querySelector('input[name="district"]:checked').value === 'specific' 
+                    ? form.querySelector('select[name="district-select"]').value 
+                    : 'all',
+                branch: form.querySelector('input[name="branch"]:checked').value === 'specific'
+                    ? form.querySelector('select[name="branch-select"]').value
+                    : 'all'
             };
 
             // Get predictions
             const predictions = await predictColleges(formData);
             
             // Display results
-            displayPredictions(predictions);
+            displayPredictions(predictions, formData);
         } catch (error) {
             showError(error.message);
         } finally {
@@ -51,10 +69,33 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 // Function to display predictions
-function displayPredictions(response) {
+function displayPredictions(response, formData) {
     const { message, colleges, currentPage, totalPages, totalColleges, hasMore } = response;
     const resultsSection = document.createElement('section');
     resultsSection.className = 'results-section';
+
+    // Sort colleges based on preferences
+    let sortedColleges = [...colleges];
+    if (formData.district !== 'all') {
+        sortedColleges.sort((a, b) => {
+            // Put preferred district colleges first
+            const aMatchesDistrict = a.district === formData.district;
+            const bMatchesDistrict = b.district === formData.district;
+            if (aMatchesDistrict && !bMatchesDistrict) return -1;
+            if (!aMatchesDistrict && bMatchesDistrict) return 1;
+            return 0;
+        });
+    }
+    if (formData.branch !== 'all') {
+        sortedColleges.sort((a, b) => {
+            // Put preferred branch colleges first
+            const aMatchesBranch = a.branch_code === formData.branch;
+            const bMatchesBranch = b.branch_code === formData.branch;
+            if (aMatchesBranch && !bMatchesBranch) return -1;
+            if (!aMatchesBranch && bMatchesBranch) return 1;
+            return 0;
+        });
+    }
 
     // Create header content
     const headerContent = `
@@ -68,6 +109,8 @@ function displayPredictions(response) {
                     <option value="cutoff">Cutoff Rank (Closest to Your Rank)</option>
                     <option value="fees">Fees (Low to High)</option>
                     <option value="name">College Name (A to Z)</option>
+                    ${formData.district !== 'all' ? '<option value="district">District (Preferred First)</option>' : ''}
+                    ${formData.branch !== 'all' ? '<option value="branch">Branch (Preferred First)</option>' : ''}
                 </select>
             </div>
         </div>
@@ -88,8 +131,8 @@ function displayPredictions(response) {
                 </tr>
             </thead>
             <tbody>
-                ${colleges.map((college, index) => `
-                    <tr>
+                ${sortedColleges.map((college, index) => `
+                    <tr class="${college.district === formData.district ? 'preferred-district' : ''} ${college.branch_code === formData.branch ? 'preferred-branch' : ''}">
                         <td>${(currentPage - 1) * 15 + index + 1}</td>
                         <td>
                             <div class="college-name">
@@ -118,6 +161,21 @@ function displayPredictions(response) {
     // Combine all content
     resultsSection.innerHTML = headerContent + tableContent + showMoreButton;
 
+    // Clear previous results and show new ones
+    const existingResults = document.querySelector('.results-section');
+    if (existingResults) {
+        existingResults.remove();
+    }
+    document.querySelector('.prediction-section').after(resultsSection);
+
+    // Scroll to results with smooth animation
+    setTimeout(() => {
+        resultsSection.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }, 100);
+
     // Add event listener for sorting
     setTimeout(() => {
         const sortSelect = document.getElementById('sortSelect');
@@ -132,6 +190,22 @@ function displayPredictions(response) {
                             return a.inst_name.localeCompare(b.inst_name);
                         case 'cutoff':
                             return (a.cutoff_rank || 0) - (b.cutoff_rank || 0);
+                        case 'district':
+                            if (formData.district !== 'all') {
+                                const aMatchesDistrict = a.district === formData.district;
+                                const bMatchesDistrict = b.district === formData.district;
+                                if (aMatchesDistrict && !bMatchesDistrict) return -1;
+                                if (!aMatchesDistrict && bMatchesDistrict) return 1;
+                            }
+                            return a.district.localeCompare(b.district);
+                        case 'branch':
+                            if (formData.branch !== 'all') {
+                                const aMatchesBranch = a.branch_code === formData.branch;
+                                const bMatchesBranch = b.branch_code === formData.branch;
+                                if (aMatchesBranch && !bMatchesBranch) return -1;
+                                if (!aMatchesBranch && bMatchesBranch) return 1;
+                            }
+                            return a.branch_code.localeCompare(b.branch_code);
                         default:
                             return 0;
                     }
@@ -143,7 +217,7 @@ function displayPredictions(response) {
                     totalPages, 
                     totalColleges, 
                     hasMore 
-                });
+                }, formData);
             });
         }
 
@@ -159,6 +233,8 @@ function displayPredictions(response) {
                         rank: form.querySelector('input[name="rank"]').value,
                         gender: form.querySelector('input[name="gender"]:checked').value,
                         category: form.querySelector('input[name="category"]:checked').value,
+                        district: form.querySelector('input[name="district"]:checked').value,
+                        branch: form.querySelector('input[name="branch"]:checked').value,
                         page: currentPage + 1
                     };
 
@@ -166,7 +242,7 @@ function displayPredictions(response) {
                     const nextPagePredictions = await predictColleges(formData);
                     
                     // Display updated results
-                    displayPredictions(nextPagePredictions);
+                    displayPredictions(nextPagePredictions, formData);
                 } catch (error) {
                     showError(error.message);
                 } finally {
@@ -175,13 +251,6 @@ function displayPredictions(response) {
             });
         }
     }, 0);
-
-    // Clear previous results and show new ones
-    const existingResults = document.querySelector('.results-section');
-    if (existingResults) {
-        existingResults.remove();
-    }
-    document.querySelector('.prediction-section').after(resultsSection);
 }
 
 // Function to display search results
@@ -244,4 +313,18 @@ function showError(message) {
     setTimeout(() => errorDiv.remove(), 5000);
     
     document.body.appendChild(errorDiv);
+}
+
+// Function to toggle district select dropdown
+function toggleDistrictSelect() {
+    const districtSelect = document.querySelector('.district-select-container');
+    const selectedValue = document.querySelector('input[name="district"]:checked').value;
+    districtSelect.style.display = selectedValue === 'specific' ? 'block' : 'none';
+}
+
+// Function to toggle branch select dropdown
+function toggleBranchSelect() {
+    const branchSelect = document.querySelector('.branch-select-container');
+    const selectedValue = document.querySelector('input[name="branch"]:checked').value;
+    branchSelect.style.display = selectedValue === 'specific' ? 'block' : 'none';
 }

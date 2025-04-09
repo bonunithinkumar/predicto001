@@ -13,6 +13,8 @@ async function predictColleges(formData) {
                 rank: parseInt(formData.rank),
                 category: formData.category,
                 gender: formData.gender,
+                district: formData.district,
+                branch: formData.branch,
                 page: formData.page || 1
             })
         });
