@@ -92,112 +92,119 @@ app.get("/search", async (req, res) => {
 // Predict colleges based on rank and category
 app.post("/predict", async (req, res) => {
   try {
-    const { rank, category, gender, page = 1, district = 'all', branch = 'all' } = req.body;
-    const limit = 15; // Number of colleges per page
-    const skip = (parseInt(page) - 1) * limit;
-    
-    if (!rank || !category || !gender) {
-      return res.status(400).json({ 
-        message: "Missing required fields: rank, category, and gender are required" 
-      });
+    const { rank, category, gender, district, branch, page = 1 } = req.body;
+    const limit = 15;
+    const skip = (page - 1) * limit;
+
+    // Build query based on category and gender
+    const query = {};
+    if (category === 'general') {
+      query[gender === 'male' ? 'OCBOYS' : 'OCGIRLS'] = { $gte: rank };
+    } else if (category === 'sc') {
+      query[gender === 'male' ? 'SCBOYS' : 'SCGIRLS'] = { $gte: rank };
+    } else if (category === 'st') {
+      query[gender === 'male' ? 'STBOYS' : 'STGIRLS'] = { $gte: rank };
+    } else if (category === 'bca') {
+      query[gender === 'male' ? 'BCABOYS' : 'BCAGIRLS'] = { $gte: rank };
+    } else if (category === 'bcb') {
+      query[gender === 'male' ? 'BCBBOYS' : 'BCBGIRLS'] = { $gte: rank };
+    } else if (category === 'bcc') {
+      query[gender === 'male' ? 'BCCBOYS' : 'BCCGIRLS'] = { $gte: rank };
+    } else if (category === 'bcd') {
+      query[gender === 'male' ? 'BCDBOYS' : 'BCDGIRLS'] = { $gte: rank };
+    } else if (category === 'bce') {
+      query[gender === 'male' ? 'BCEBOYS' : 'BCEGIRLS'] = { $gte: rank };
     }
 
-    // Get the category prefixes based on input category
-    const categoryPrefixes = CATEGORY_MAPPING[category.toLowerCase()];
-
-    if (!categoryPrefixes) {
-      return res.status(400).json({ 
-        message: "Invalid category. Must be one of: general, obc, sc, st, ews" 
-      });
+    // Add district filter if provided
+    if (district && district !== 'all') {
+      query.DIST = district;
     }
 
-    // Construct the query for all relevant category fields
-    const genderSuffix = gender.toUpperCase() === 'MALE' ? '_BOYS' : '_GIRLS';
-    
-    // Create an OR query for all applicable categories
-    const orConditions = categoryPrefixes.map(prefix => ({
-      [`${prefix}${genderSuffix}`]: { $gte: parseInt(rank) }
-    }));
-
-    // Build the main query
-    let query = { $or: orConditions };
-
-    // Add district filter if specified
-    if (district !== 'all') {
-      query.district = district;
-    }
-
-    // Add branch filter if specified
-    if (branch !== 'all') {
-      query.branch_code = branch;
+    // Add branch filter if provided
+    if (branch && branch !== 'all') {
+      query.BRANCH_CODE = branch;
     }
 
     // Get total count for pagination
     const totalColleges = await College.countDocuments(query);
     const totalPages = Math.ceil(totalColleges / limit);
 
-    // Find colleges that match the conditions with pagination
+    // Get colleges with pagination
     const colleges = await College.find(query)
-      .select(`
-        inst_name 
-        type 
-        district 
-        place 
-        branch_code 
-        COLLFEE 
-        ${categoryPrefixes.map(prefix => `${prefix}${genderSuffix}`).join(' ')}
-      `)
-      .sort({ [`${categoryPrefixes[0]}${genderSuffix}`]: 1 })
+      .select('INST_CODE INST_NAME TYPE DIST PLACE COED BRANCH_CODE OCBOYS OCGIRLS SCBOYS SCGIRLS STBOYS STGIRLS BCABOYS BCAGIRLS BCBBOYS BCBGIRLS BCCBOYS BCCGIRLS BCDBOYS BCDGIRLS BCEBOYS BCEGIRLS COLLFEE')
+      .sort(gender === 'male' ? 
+        (category === 'general' ? { OCBOYS: 1 } : 
+         category === 'sc' ? { SCBOYS: 1 } :
+         category === 'st' ? { STBOYS: 1 } :
+         category === 'bca' ? { BCABOYS: 1 } :
+         category === 'bcb' ? { BCBBOYS: 1 } :
+         category === 'bcc' ? { BCCBOYS: 1 } :
+         category === 'bcd' ? { BCDBOYS: 1 } :
+         { BCEBOYS: 1 }) :
+        (category === 'general' ? { OCGIRLS: 1 } :
+         category === 'sc' ? { SCGIRLS: 1 } :
+         category === 'st' ? { STGIRLS: 1 } :
+         category === 'bca' ? { BCAGIRLS: 1 } :
+         category === 'bcb' ? { BCBGIRLS: 1 } :
+         category === 'bcc' ? { BCCGIRLS: 1 } :
+         category === 'bcd' ? { BCDGIRLS: 1 } :
+         { BCEGIRLS: 1 }))
       .skip(skip)
       .limit(limit);
 
-    // Transform the results to include the best matching cutoff
+    // Transform the response
     const transformedColleges = colleges.map(college => {
-      const doc = college.toObject();
-      
-      // Find the best (lowest) cutoff rank among applicable categories
-      const cutoffs = categoryPrefixes.map(prefix => ({
-        category: prefix,
-        cutoff: doc[`${prefix}${genderSuffix}`]
-      })).filter(c => c.cutoff != null);
-
-      const bestCutoff = cutoffs.reduce((best, current) => 
-        !best || (current.cutoff < best.cutoff) ? current : best
-      , null);
-
-      return {
-        ...doc,
-        cutoff_category: bestCutoff ? bestCutoff.category : null,
-        cutoff_rank: bestCutoff ? bestCutoff.cutoff : null
+      const transformedCollege = {
+        institution_code: college.INST_CODE,
+        institution_name: college.INST_NAME,
+        type: college.TYPE,
+        district: college.DIST,
+        place: college.PLACE,
+        coed: college.COED,
+        branch_code: college.BRANCH_CODE,
+        cutoff_rank: gender === 'male' ? 
+          (category === 'general' ? college.OCBOYS :
+           category === 'sc' ? college.SCBOYS :
+           category === 'st' ? college.STBOYS :
+           category === 'bca' ? college.BCABOYS :
+           category === 'bcb' ? college.BCBBOYS :
+           category === 'bcc' ? college.BCCBOYS :
+           category === 'bcd' ? college.BCDBOYS :
+           college.BCEBOYS) :
+          (category === 'general' ? college.OCGIRLS :
+           category === 'sc' ? college.SCGIRLS :
+           category === 'st' ? college.STGIRLS :
+           category === 'bca' ? college.BCAGIRLS :
+           category === 'bcb' ? college.BCBGIRLS :
+           category === 'bcc' ? college.BCCGIRLS :
+           category === 'bcd' ? college.BCDGIRLS :
+           college.BCEGIRLS),
+        college_fee: college.COLLFEE,
+        cutoff_category: category.toUpperCase()
       };
-    });
 
-    if (transformedColleges.length === 0) {
-      return res.json({
-        message: "No colleges found matching your criteria",
-        colleges: [],
-        currentPage: parseInt(page),
-        totalPages: 0,
-        totalColleges: 0,
-        hasMore: false
+      // Remove any undefined or null values
+      Object.keys(transformedCollege).forEach(key => {
+        if (transformedCollege[key] === undefined || transformedCollege[key] === null) {
+          delete transformedCollege[key];
+        }
       });
-    }
+
+      return transformedCollege;
+    });
 
     res.json({
       message: `Found ${totalColleges} colleges matching your criteria (showing ${skip + 1}-${Math.min(skip + limit, totalColleges)})`,
       colleges: transformedColleges,
-      currentPage: parseInt(page),
+      currentPage: page,
       totalPages,
       totalColleges,
-      hasMore: parseInt(page) < totalPages
+      hasMore: page < totalPages
     });
-
-  } catch (err) {
-    console.error('Prediction error:', err);
-    res.status(500).json({ 
-      message: "Error predicting colleges", 
-      error: process.env.NODE_ENV === 'development' ? err.message : 'Internal server error' 
-    });
+  } catch (error) {
+    console.error('Error in predict endpoint:', error);
+    res.status(500).json({ error: 'Internal server error' });
   }
 });
 

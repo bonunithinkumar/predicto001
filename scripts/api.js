@@ -20,9 +20,25 @@ async function predictColleges(formData) {
         });
 
         const data = await response.json();
+        console.log('API Response:', data);
 
         if (!response.ok) {
             throw new Error(data.message || 'Failed to fetch predictions');
+        }
+
+        // Ensure each college object has all required fields
+        if (data.colleges && data.colleges.length > 0) {
+            data.colleges = data.colleges.map(college => ({
+                institution_name: college.institution_name || 'N/A',
+                type: college.type || 'N/A',
+                district: college.district || 'N/A',
+                place: college.place || 'N/A',
+                branch_code: college.branch_code || 'N/A',
+                cutoff_rank: college.cutoff_rank || 'N/A',
+                college_fee: college.college_fee || 'N/A',
+                cutoff_category: college.cutoff_category || 'N/A',
+                coed: college.coed || 'N/A'
+            }));
         }
 
         return data;
@@ -31,6 +47,9 @@ async function predictColleges(formData) {
         throw error;
     }
 }
+
+// Make the function available globally
+window.predictColleges = predictColleges;
 
 // Function to search colleges
 async function searchColleges(query, type, district) {

@@ -1,32 +1,40 @@
 const mongoose = require("mongoose");
 
 const collegeSchema = new mongoose.Schema({
-  inst_code: String,
-  inst_name: String,
-  type: String,
-  district: String,
-  place: String,
-  coed: String,
-  branch_code: String,
-  OC_BOYS: Number,
-  OC_GIRLS: Number,
-  SC_BOYS: Number,
-  SC_GIRLS: Number,
-  ST_BOYS: Number,
-  ST_GIRLS: Number,
-  BCA_BOYS: Number,
-  BCA_GIRLS: Number,
-  BCB_BOYS: Number,
-  BCB_GIRLS: Number,
-  BCC_BOYS: Number,
-  BCC_GIRLS: Number,
-  BCD_BOYS: Number,
-  BCD_GIRLS: Number,
-  BCE_BOYS: Number,
-  BCE_GIRLS: Number,
-  OC_EWS_BOYS: Number,
-  OC_EWS_GIRLS: Number,
+  INST_CODE: String,
+  INST_NAME: String,
+  TYPE: String,
+  DIST: String,
+  PLACE: String,
+  COED: String,
+  BRANCH_CODE: String,
+  OCBOYS: Number,
+  OCGIRLS: Number,
+  SCBOYS: Number,
+  SCGIRLS: Number,
+  STBOYS: Number,
+  STGIRLS: Number,
+  BCABOYS: Number,
+  BCAGIRLS: Number,
+  BCBBOYS: Number,
+  BCBGIRLS: Number,
+  BCCBOYS: Number,
+  BCCGIRLS: Number,
+  BCDBOYS: Number,
+  BCDGIRLS: Number,
+  BCEBOYS: Number,
+  BCEGIRLS: Number,
+  OCEWSBOYS: Number,
+  OCEWSGIRLS: Number,
   COLLFEE: Number
+}, {
+  strict: true // This ensures only fields defined in the schema are saved
 });
+
+// Create indexes for commonly queried fields
+collegeSchema.index({ OCBOYS: 1 });
+collegeSchema.index({ OCGIRLS: 1 });
+collegeSchema.index({ DIST: 1 });
+collegeSchema.index({ BRANCH_CODE: 1 });
 
 module.exports = mongoose.model("College", collegeSchema);

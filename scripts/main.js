@@ -35,14 +35,18 @@ document.addEventListener('DOMContentLoaded', () => {
                     : 'all',
                 branch: form.querySelector('input[name="branch"]:checked').value === 'specific'
                     ? form.querySelector('select[name="branch-select"]').value
-                    : 'all'
+                    : 'all',
+                page: 1
             };
 
-            // Get predictions
-            const predictions = await predictColleges(formData);
+            // Get predictions using the API function
+            const predictions = await window.predictColleges(formData);
             
             // Display results
             displayPredictions(predictions, formData);
+            
+            // Scroll to results
+            document.getElementById('results').scrollIntoView({ behavior: 'smooth' });
         } catch (error) {
             showError(error.message);
         } finally {
@@ -71,186 +75,148 @@ document.addEventListener('DOMContentLoaded', () => {
 // Function to display predictions
 function displayPredictions(response, formData) {
     const { message, colleges, currentPage, totalPages, totalColleges, hasMore } = response;
-    const resultsSection = document.createElement('section');
-    resultsSection.className = 'results-section';
-
-    // Sort colleges based on preferences
-    let sortedColleges = [...colleges];
-    if (formData.district !== 'all') {
-        sortedColleges.sort((a, b) => {
-            // Put preferred district colleges first
-            const aMatchesDistrict = a.district === formData.district;
-            const bMatchesDistrict = b.district === formData.district;
-            if (aMatchesDistrict && !bMatchesDistrict) return -1;
-            if (!aMatchesDistrict && bMatchesDistrict) return 1;
-            return 0;
-        });
+    console.log('Response:', response);
+    console.log('Colleges:', colleges);
+    
+    const resultsContainer = document.getElementById('results');
+    if (!resultsContainer) {
+        console.error('Results container not found');
+        return;
     }
-    if (formData.branch !== 'all') {
-        sortedColleges.sort((a, b) => {
-            // Put preferred branch colleges first
-            const aMatchesBranch = a.branch_code === formData.branch;
-            const bMatchesBranch = b.branch_code === formData.branch;
-            if (aMatchesBranch && !bMatchesBranch) return -1;
-            if (!aMatchesBranch && bMatchesBranch) return 1;
-            return 0;
-        });
+    
+    // Clear previous results and add active class
+    resultsContainer.innerHTML = '';
+    resultsContainer.classList.add('active');
+    
+    if (colleges.length === 0) {
+        resultsContainer.innerHTML = '<div class="no-results">No colleges found matching your criteria.</div>';
+        return;
     }
 
-    // Create header content
-    const headerContent = `
+    // Add heading and description
+    const headingSection = document.createElement('div');
+    headingSection.className = 'results-header';
+    headingSection.innerHTML = `
         <h2>Colleges Matching Your Criteria</h2>
-        <p>${message}</p>
-        <div class="results-info">
-            <p>Showing ${(currentPage - 1) * 15 + 1} to ${Math.min(currentPage * 15, totalColleges)} of ${totalColleges} colleges</p>
-            <div class="sort-controls">
-                <label>Sort by:</label>
-                <select id="sortSelect">
-                    <option value="cutoff">Cutoff Rank (Closest to Your Rank)</option>
-                    <option value="fees">Fees (Low to High)</option>
-                    <option value="name">College Name (A to Z)</option>
-                    ${formData.district !== 'all' ? '<option value="district">District (Preferred First)</option>' : ''}
-                    ${formData.branch !== 'all' ? '<option value="branch">Branch (Preferred First)</option>' : ''}
-                </select>
-            </div>
+        <p>Based on your rank and preferences, here are the colleges that match your profile:</p>
+        <p class="results-count">Showing ${(currentPage - 1) * 15 + 1} to ${Math.min(currentPage * 15, totalColleges)} colleges</p>
+    `;
+    resultsContainer.appendChild(headingSection);
+
+    // Add sorting controls
+    const sortingSection = document.createElement('div');
+    sortingSection.className = 'sorting-controls';
+    sortingSection.innerHTML = `
+        <div class="sort-by">
+            <label for="sort-select">Sort by:</label>
+            <select id="sort-select" class="sort-select">
+                <option value="cutoff_rank">Cutoff Rank (Closest to Your Rank)</option>
+                <option value="college_fee">College Fee (Low to High)</option>
+                <option value="institution_name">College Name (A to Z)</option>
+            </select>
         </div>
     `;
-
-    // Create table
-    const tableContent = `
-        <table class="results-table">
-            <thead>
-                <tr>
-                    <th>S.NO</th>
-                    <th>COLLEGE NAME</th>
-                    <th>DISTRICT</th>
-                    <th>BRANCH</th>
-                    <th>CUTOFF</th>
-                    <th>CATEGORY</th>
-                    <th>FEES</th>
-                </tr>
-            </thead>
-            <tbody>
-                ${sortedColleges.map((college, index) => `
-                    <tr class="${college.district === formData.district ? 'preferred-district' : ''} ${college.branch_code === formData.branch ? 'preferred-branch' : ''}">
-                        <td>${(currentPage - 1) * 15 + index + 1}</td>
-                        <td>
-                            <div class="college-name">
-                                <strong>${college.inst_name}</strong>
-                                <span>${college.place || ''}</span>
-                            </div>
-                        </td>
-                        <td>${college.district || 'N/A'}</td>
-                        <td>${college.branch_code || 'N/A'}</td>
-                        <td>${college.cutoff_rank || 'N/A'}</td>
-                        <td>${college.cutoff_category || 'N/A'}</td>
-                        <td>${college.COLLFEE ? '₹' + college.COLLFEE : 'N/A'}</td>
-                    </tr>
-                `).join('')}
-            </tbody>
-        </table>
+    resultsContainer.appendChild(sortingSection);
+    
+    // Create a table for the college data
+    const table = document.createElement('table');
+    table.className = 'results-table';
+    
+    // Create table header
+    const thead = document.createElement('thead');
+    thead.innerHTML = `
+        <tr>
+            <th>S.No.</th>
+            <th>Institution Name</th>
+            <th>Type</th>
+            <th>District</th>
+            <th>Place</th>
+            <th>Branch</th>
+            <th>Cutoff Rank</th>
+            <th>College Fee</th>
+            <th>Category</th>
+        </tr>
     `;
-
-    // Add Show More button if there are more pages
-    const showMoreButton = hasMore ? `
-        <div class="show-more-container">
-            <button id="showMoreBtn" class="show-more-btn">Show More Colleges</button>
-        </div>
-    ` : '';
-
-    // Combine all content
-    resultsSection.innerHTML = headerContent + tableContent + showMoreButton;
-
-    // Clear previous results and show new ones
-    const existingResults = document.querySelector('.results-section');
-    if (existingResults) {
-        existingResults.remove();
+    table.appendChild(thead);
+    
+    // Create table body
+    const tbody = document.createElement('tbody');
+    colleges.forEach((college, index) => {
+        const row = document.createElement('tr');
+        const serialNumber = (currentPage - 1) * 15 + index + 1;
+        row.innerHTML = `
+            <td>${serialNumber}</td>
+            <td>${college.institution_name || 'N/A'}</td>
+            <td>${college.type || 'N/A'}</td>
+            <td>${college.district || 'N/A'}</td>
+            <td>${college.place || 'N/A'}</td>
+            <td>${college.branch_code || 'N/A'}</td>
+            <td>${college.cutoff_rank || 'N/A'}</td>
+            <td>${college.college_fee || 'N/A'}</td>
+            <td>${college.cutoff_category || 'N/A'}</td>
+        `;
+        tbody.appendChild(row);
+    });
+    table.appendChild(tbody);
+    
+    // Add the table to the results container
+    resultsContainer.appendChild(table);
+    
+    // Add pagination info
+    const paginationInfo = document.createElement('div');
+    paginationInfo.className = 'pagination-info';
+    paginationInfo.innerHTML = `
+        <p>Page ${currentPage} of ${totalPages}</p>
+    `;
+    resultsContainer.appendChild(paginationInfo);
+    
+    // Add show more button if there are more pages
+    if (currentPage < totalPages) {
+        const showMoreBtn = document.createElement('button');
+        showMoreBtn.className = 'show-more';
+        showMoreBtn.textContent = 'Show More';
+        showMoreBtn.onclick = () => loadMoreColleges(currentPage + 1);
+        resultsContainer.appendChild(showMoreBtn);
     }
-    document.querySelector('.prediction-section').after(resultsSection);
 
-    // Scroll to results with smooth animation
-    setTimeout(() => {
-        resultsSection.scrollIntoView({ 
-            behavior: 'smooth',
-            block: 'start'
+    // Add sorting functionality
+    document.getElementById('sort-select').addEventListener('change', function(e) {
+        const sortBy = e.target.value;
+        const sortedColleges = [...colleges].sort((a, b) => {
+            switch(sortBy) {
+                case 'cutoff_rank':
+                    return (a.cutoff_rank || 0) - (b.cutoff_rank || 0);
+                case 'college_fee':
+                    return (a.college_fee || 0) - (b.college_fee || 0);
+                case 'institution_name':
+                    return (a.institution_name || '').localeCompare(b.institution_name || '');
+                default:
+                    return 0;
+            }
         });
-    }, 100);
+        
+        // Update table with sorted colleges
+        tbody.innerHTML = '';
+        sortedColleges.forEach((college, index) => {
+            const row = document.createElement('tr');
+            const serialNumber = (currentPage - 1) * 15 + index + 1;
+            row.innerHTML = `
+                <td>${serialNumber}</td>
+                <td>${college.institution_name || 'N/A'}</td>
+                <td>${college.type || 'N/A'}</td>
+                <td>${college.district || 'N/A'}</td>
+                <td>${college.place || 'N/A'}</td>
+                <td>${college.branch_code || 'N/A'}</td>
+                <td>${college.cutoff_rank || 'N/A'}</td>
+                <td>${college.college_fee || 'N/A'}</td>
+                <td>${college.cutoff_category || 'N/A'}</td>
+            `;
+            tbody.appendChild(row);
+        });
+    });
 
-    // Add event listener for sorting
-    setTimeout(() => {
-        const sortSelect = document.getElementById('sortSelect');
-        if (sortSelect) {
-            sortSelect.addEventListener('change', (e) => {
-                const sortBy = e.target.value;
-                const sortedColleges = [...colleges].sort((a, b) => {
-                    switch(sortBy) {
-                        case 'fees':
-                            return (a.COLLFEE || 0) - (b.COLLFEE || 0);
-                        case 'name':
-                            return a.inst_name.localeCompare(b.inst_name);
-                        case 'cutoff':
-                            return (a.cutoff_rank || 0) - (b.cutoff_rank || 0);
-                        case 'district':
-                            if (formData.district !== 'all') {
-                                const aMatchesDistrict = a.district === formData.district;
-                                const bMatchesDistrict = b.district === formData.district;
-                                if (aMatchesDistrict && !bMatchesDistrict) return -1;
-                                if (!aMatchesDistrict && bMatchesDistrict) return 1;
-                            }
-                            return a.district.localeCompare(b.district);
-                        case 'branch':
-                            if (formData.branch !== 'all') {
-                                const aMatchesBranch = a.branch_code === formData.branch;
-                                const bMatchesBranch = b.branch_code === formData.branch;
-                                if (aMatchesBranch && !bMatchesBranch) return -1;
-                                if (!aMatchesBranch && bMatchesBranch) return 1;
-                            }
-                            return a.branch_code.localeCompare(b.branch_code);
-                        default:
-                            return 0;
-                    }
-                });
-                displayPredictions({ 
-                    message, 
-                    colleges: sortedColleges, 
-                    currentPage, 
-                    totalPages, 
-                    totalColleges, 
-                    hasMore 
-                }, formData);
-            });
-        }
-
-        // Add event listener for Show More button
-        const showMoreBtn = document.getElementById('showMoreBtn');
-        if (showMoreBtn) {
-            showMoreBtn.addEventListener('click', async () => {
-                showLoading();
-                try {
-                    // Get form data
-                    const form = document.getElementById('collegepredictorform');
-                    const formData = {
-                        rank: form.querySelector('input[name="rank"]').value,
-                        gender: form.querySelector('input[name="gender"]:checked').value,
-                        category: form.querySelector('input[name="category"]:checked').value,
-                        district: form.querySelector('input[name="district"]:checked').value,
-                        branch: form.querySelector('input[name="branch"]:checked').value,
-                        page: currentPage + 1
-                    };
-
-                    // Get next page of predictions
-                    const nextPagePredictions = await predictColleges(formData);
-                    
-                    // Display updated results
-                    displayPredictions(nextPagePredictions, formData);
-                } catch (error) {
-                    showError(error.message);
-                } finally {
-                    hideLoading();
-                }
-            });
-        }
-    }, 0);
+    // Smooth scroll to results
+    resultsContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 // Function to display search results
@@ -266,15 +232,7 @@ function displaySearchResults(colleges) {
         `;
     } else {
         colleges.forEach(college => {
-            const collegeCard = document.createElement('div');
-            collegeCard.className = 'college-card';
-            collegeCard.innerHTML = `
-                <h3>${college.inst_name}</h3>
-                <p><strong>Branch:</strong> ${college.branch_code || 'N/A'}</p>
-                <p><strong>Type:</strong> ${college.type || 'N/A'}</p>
-                <p><strong>District:</strong> ${college.district || 'N/A'}</p>
-                <p><strong>Place:</strong> ${college.place || 'N/A'}</p>
-            `;
+            const collegeCard = createCollegeCard(college);
             resultsContainer.appendChild(collegeCard);
         });
     }
@@ -327,4 +285,172 @@ function toggleBranchSelect() {
     const branchSelect = document.querySelector('.branch-select-container');
     const selectedValue = document.querySelector('input[name="branch"]:checked').value;
     branchSelect.style.display = selectedValue === 'specific' ? 'block' : 'none';
+}
+
+function createCollegeCard(college) {
+    const card = document.createElement('div');
+    card.className = 'college-card';
+    
+    // Format the college fee with commas and handle undefined/null values
+    const formattedFee = college.college_fee ? 
+        `₹${college.college_fee.toLocaleString('en-IN')}` : 
+        'N/A';
+    
+    // Format the cutoff rank with commas and handle undefined/null values
+    const formattedRank = college.cutoff_rank ? 
+        college.cutoff_rank.toLocaleString('en-IN') : 
+        'N/A';
+    
+    // Format the cutoff category
+    const formattedCategory = college.cutoff_category ? 
+        college.cutoff_category.toUpperCase() : 
+        'N/A';
+    
+    // Format the branch code
+    const formattedBranch = college.branch_code ? 
+        college.branch_code.toUpperCase() : 
+        'N/A';
+    
+    // Format the district
+    const formattedDistrict = college.district ? 
+        college.district.toUpperCase() : 
+        'N/A';
+    
+    // Format the place
+    const formattedPlace = college.place ? 
+        college.place.toUpperCase() : 
+        'N/A';
+    
+    // Format the type
+    const formattedType = college.type ? 
+        college.type.toUpperCase() : 
+        'N/A';
+    
+    // Format the coed status
+    const formattedCoed = college.coed ? 
+        college.coed.toUpperCase() : 
+        'N/A';
+    
+    // Format the institution name
+    const formattedName = college.institution_name ? 
+        college.institution_name.toUpperCase() : 
+        'N/A';
+    
+    card.innerHTML = `
+        <div class="college-header">
+            <h3>${formattedName}</h3>
+            <span class="college-type ${formattedType.toLowerCase()}">${formattedType}</span>
+        </div>
+        <div class="college-details">
+            <div class="detail-row">
+                <span class="detail-label">Branch:</span>
+                <span class="detail-value">${formattedBranch}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Cutoff Rank:</span>
+                <span class="detail-value">${formattedRank}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Category:</span>
+                <span class="detail-value">${formattedCategory}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">College Fee:</span>
+                <span class="detail-value">${formattedFee}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Location:</span>
+                <span class="detail-value">${formattedPlace}, ${formattedDistrict}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Type:</span>
+                <span class="detail-value">${formattedCoed}</span>
+            </div>
+        </div>
+    `;
+    
+    return card;
+}
+
+async function loadMoreColleges(nextPage) {
+    showLoading();
+    try {
+        const form = document.getElementById('collegepredictorform');
+        if (!form) {
+            throw new Error('Form not found');
+        }
+        
+        const formData = {
+            rank: form.querySelector('input[name="rank"]').value,
+            gender: form.querySelector('input[name="gender"]:checked').value,
+            category: form.querySelector('input[name="category"]:checked').value,
+            district: form.querySelector('input[name="district"]:checked').value === 'specific' 
+                ? form.querySelector('select[name="district-select"]').value 
+                : 'all',
+            branch: form.querySelector('input[name="branch"]:checked').value === 'specific'
+                ? form.querySelector('select[name="branch-select"]').value
+                : 'all',
+            page: nextPage
+        };
+
+        const response = await window.predictColleges(formData);
+        const tbody = document.querySelector('.results-table tbody');
+        
+        if (!tbody) {
+            console.error('Table body not found');
+            return;
+        }
+        
+        // Add new rows to the existing table
+        response.colleges.forEach((college, index) => {
+            const row = document.createElement('tr');
+            const serialNumber = (nextPage - 1) * 15 + index + 1;
+            row.innerHTML = `
+                <td>${serialNumber}</td>
+                <td>${college.institution_name || 'N/A'}</td>
+                <td>${college.type || 'N/A'}</td>
+                <td>${college.district || 'N/A'}</td>
+                <td>${college.place || 'N/A'}</td>
+                <td>${college.branch_code || 'N/A'}</td>
+                <td>${college.cutoff_rank || 'N/A'}</td>
+                <td>${college.college_fee || 'N/A'}</td>
+                <td>${college.cutoff_category || 'N/A'}</td>
+            `;
+            tbody.appendChild(row);
+        });
+        
+        // Update results count in header
+        const resultsCount = document.querySelector('.results-count');
+        if (resultsCount) {
+            resultsCount.textContent = `Showing ${(nextPage - 1) * 15 + 1} to ${Math.min(nextPage * 15, response.totalColleges)} colleges`;
+        }
+        
+        // Update pagination info
+        const paginationInfo = document.querySelector('.pagination-info');
+        if (paginationInfo) {
+            paginationInfo.innerHTML = `
+                <p>Page ${nextPage} of ${response.totalPages}</p>
+            `;
+        }
+        
+        // Update or remove show more button
+        const showMoreBtn = document.querySelector('.show-more');
+        if (nextPage < response.totalPages) {
+            if (showMoreBtn) {
+                showMoreBtn.onclick = () => loadMoreColleges(nextPage + 1);
+            } else {
+                const newShowMoreBtn = document.createElement('button');
+                newShowMoreBtn.className = 'show-more';
+                newShowMoreBtn.textContent = 'Show More';
+                newShowMoreBtn.onclick = () => loadMoreColleges(nextPage + 1);
+                document.getElementById('results').appendChild(newShowMoreBtn);
+            }
+        } else if (showMoreBtn) {
+            showMoreBtn.remove();
+        }
+    } catch (error) {
+        showError(error.message);
+    } finally {
+        hideLoading();
+    }
 }
