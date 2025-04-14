@@ -454,3 +454,97 @@ async function loadMoreColleges(nextPage) {
         hideLoading();
     }
 }
+
+// Mobile Sidebar Functionality
+document.addEventListener('DOMContentLoaded', function() {
+  const mobileMenuIcon = document.querySelector('.mobile-menu-icon');
+  const mobileSidebar = document.getElementById('mobileSidebar');
+  const sidebarOverlay = document.getElementById('sidebarOverlay');
+  const sidebarClose = document.querySelector('.sidebar-close');
+  
+  // Open sidebar
+  mobileMenuIcon.addEventListener('click', function() {
+    mobileSidebar.classList.add('active');
+    sidebarOverlay.classList.add('active');
+    document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
+  });
+  
+  // Close sidebar
+  function closeSidebar() {
+    mobileSidebar.classList.remove('active');
+    sidebarOverlay.classList.remove('active');
+    document.body.style.overflow = ''; // Restore scrolling
+  }
+  
+  sidebarClose.addEventListener('click', closeSidebar);
+  sidebarOverlay.addEventListener('click', closeSidebar);
+  
+  // Close sidebar when clicking on a navigation link
+  const sidebarLinks = document.querySelectorAll('.sidebar-nav a');
+  sidebarLinks.forEach(link => {
+    link.addEventListener('click', closeSidebar);
+  });
+  
+  // Handle window resize
+  window.addEventListener('resize', function() {
+    if (window.innerWidth > 768) {
+      closeSidebar();
+    }
+  });
+  
+  // Mobile sidebar search functionality
+  const sidebarSearchBtn = document.querySelector('.mobile-sidebar .sidebar-search button');
+  const sidebarSearchInput = document.querySelector('.mobile-sidebar .sidebar-search input');
+  
+  if (sidebarSearchBtn && sidebarSearchInput) {
+    sidebarSearchBtn.addEventListener('click', async () => {
+      const query = sidebarSearchInput.value.trim();
+      if (!query) return;
+      
+      showLoading();
+      
+      try {
+        // Use the same search functionality as the main search box
+        const searchTerm = query.toLowerCase();
+        
+        // Define available colleges with their variations
+        const availableColleges = {
+          'vignan': ['vignan', 'viit', 'vignan institute', 'vignan institute of information technology'],
+          'anits': ['anits', 'anil neerukonda', 'anil neerukonda institute', 'anil neerukonda institute of technology and sciences'],
+          'gvp': ['gvp', 'gayatri', 'gayatri vidya parishad', 'gvp college of engineering'],
+          'raghu': ['raghu', 'rec', 'raghu engineering', 'raghu engineering college'],
+          'mvgr': ['mvgr', 'mvgr college', 'mvgr engineering', 'mvgr college of engineering'],
+          'gitam': ['gitam', 'gitam university', 'gandhi institute of technology']
+        };
+
+        // Find matching college
+        let matchedCollege = null;
+        for (const [key, variations] of Object.entries(availableColleges)) {
+          if (variations.some(v => searchTerm.includes(v))) {
+            matchedCollege = key;
+            break;
+          }
+        }
+
+        if (matchedCollege) {
+          window.location.href = `college-details.html?college=${encodeURIComponent(matchedCollege)}`;
+        } else {
+          alert("College not found in our database. Please try another college name.");
+        }
+        
+        closeSidebar(); // Close sidebar after search
+      } catch (error) {
+        showError(error.message);
+      } finally {
+        hideLoading();
+      }
+    });
+    
+    // Also allow search on Enter key
+    sidebarSearchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        sidebarSearchBtn.click();
+      }
+    });
+  }
+});

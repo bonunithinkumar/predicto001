@@ -56,9 +56,70 @@
           <button id="search-btn" class="search-btn">Search</button>
         </div>
         
+        <div class="nav-container">
+          <ul class="nav-links">
+            <li><a href="#" class="active">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+          </ul>
+        </div>
+        
         <img id="profile-img" src="logos-pfp/person.svg">
+        
+        <!-- Mobile Menu Icon -->
+        <div class="mobile-menu-icon">
+          <i class="fas fa-bars"></i>
+        </div>
       </div>
     </div>
+    
+    <!-- Mobile Sidebar -->
+    <div class="mobile-sidebar" id="mobileSidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-logo">
+          <img src="logos/owl-logo.png" alt="Logo">
+          <span>College Predicto</span>
+        </div>
+        <div class="sidebar-close">
+          <i class="fas fa-times"></i>
+        </div>
+      </div>
+      
+      <div class="sidebar-search">
+        <div class="search-box">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Search for colleges...">
+        </div>
+        <button class="search-btn">Search</button>
+      </div>
+      
+      <ul class="sidebar-nav">
+        <li><a href="#" class="active"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="#"><i class="fas fa-info-circle"></i> About</a></li>
+        <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+      </ul>
+      
+      <div class="sidebar-profile">
+        <h3>Profile</h3>
+        <div class="profile-options">
+          <div class="profile-option">
+            <img src="logos-pfp/pfp3.webp" alt="Profile 1">
+            <span>Profile 1</span>
+          </div>
+          <div class="profile-option">
+            <img src="logos-pfp/person.svg" alt="Profile 2">
+            <span>Profile 2</span>
+          </div>
+          <div class="profile-option">
+            <img src="logos-pfp/pfp4.webp" alt="Profile 3">
+            <span>Profile 3</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Overlay for sidebar -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="profile-popup" id="profilePopup">
         <div class="profile-popup-content">
