@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Top Engineering Colleges</title>
+    
+    <link rel="stylesheet" href="styles/state-colleges.css">
+    
+    <<link rel="stylesheet" href="styles/shared/general.css">
+    <link rel="stylesheet" href="styles/shared/header.css">
+    <link rel="stylesheet" href="styles/shared/footer.css">
+    
+    <link rel="stylesheet" href="styles/animations.css">
+    <link rel="stylesheet" href="styles/state-entrance.css">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400..900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header Section -->
+    <div class="header">
+        <div class="left">
+          <div class="logo-div">
+            <img class="logo" src="logos/owl-logo.png">
+          </div>
+          <div class="title">College Predicto</div>
+        </div>
+        
+        <div class="right">
+          <div class="search-container">
+            <div class="search-box">
+              <i class="fas fa-search"></i>
+              <input type="text" id="college-search" placeholder="Search for colleges...">
+            </div>
+            <button id="search-btn" class="search-btn">Search</button>
+          </div>
+          
+          <div class="nav-container">
+            <ul class="nav-links">
+              <li><a href="index.html">Home</a></li>
+              <li><a href="index.html">About</a></li>
+              <li><a href="#">Contact</a></li>
+            </ul>
+          </div>
+          
+          <img id="profile-img" src="logos-pfp/person.svg">
+          
+          <!-- Mobile Menu Icon -->
+          <div class="mobile-menu-icon">
+            <i class="fas fa-bars"></i>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Mobile Sidebar -->
+      <div class="mobile-sidebar" id="mobileSidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-logo">
+            <img src="logos/owl-logo.png" alt="Logo">
+            <span>College Predicto</span>
+          </div>
+          <div class="sidebar-close">
+            <i class="fas fa-times"></i>
+          </div>
+        </div>
+        
+        <div class="sidebar-search">
+          <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for colleges...">
+          </div>
+          <button class="search-btn">Search</button>
+        </div>
+        
+        <ul class="sidebar-nav">
+          <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+          <li><a href="index.html"><i class="fas fa-info-circle"></i> About</a></li>
+          <li><a href="#"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+        
+        <div class="sidebar-profile">
+          <h3>Profile</h3>
+          <div class="profile-options">
+            <div class="profile-option">
+              <img src="logos-pfp/pfp3.webp" alt="Profile 1">
+              <span>Profile 1</span>
+            </div>
+            <div class="profile-option">
+              <img src="logos-pfp/person.svg" alt="Profile 2">
+              <span>Profile 2</span>
+            </div>
+            <div class="profile-option">
+              <img src="logos-pfp/pfp4.webp" alt="Profile 3">
+              <span>Profile 3</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Overlay for sidebar -->
+      <div class="sidebar-overlay" id="sidebarOverlay"></div>
+  
+      <div class="profile-popup" id="profilePopup">
+          <div class="profile-popup-content">
+              <h3>Select Profile Picture</h3>
+              <div class="profile-images">
+                  <img src="logos-pfp/pfp3.webp" class="profile-image-option" alt="Profile 1">
+                  <img src="logos-pfp/person.svg" class="profile-image-option" alt="Profile 2">
+                  <img src="logos-pfp/pfp4.webp" class="profile-image-option" alt="Profile 3">
+              </div>
+          </div>
+      </div>
+
+    <!-- Main Content -->
+    <div class="colleges-container">
+        <div class="state-header">
+            <h1 id="state-title">Top Engineering Colleges</h1>
+            <p id="state-description">Discover the best engineering colleges in <span id="state-name"></span></p>
+        </div>
+
+        <!-- Student Reviews Section -->
+        <div class="colleges-section">
+            <h2 class="section-title">Top Rated by Students</h2>
+            <div class="scroll-container">
+                <div class="row-container">
+                    <h3 class="row-title">Private Colleges</h3>
+                    <div class="colleges-row" id="private-reviews-row">
+                        <!-- Private colleges by reviews will be populated here -->
+                    </div>
+                    <button class="scroll-btn scroll-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="row-container">
+                    <h3 class="row-title">Government Colleges</h3>
+                    <div class="colleges-row" id="govt-reviews-row">
+                        <!-- Government colleges by reviews will be populated here -->
+                    </div>
+                    <button class="scroll-btn scroll-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Rankings Section -->
+        <div class="colleges-section">
+            <h2 class="section-title">Top NIRF Rankings</h2>
+            <div class="scroll-container">
+                <div class="row-container">
+                    <h3 class="row-title">Private Colleges</h3>
+                    <div class="colleges-row" id="private-ranking-row">
+                        <!-- Private colleges by ranking will be populated here -->
+                    </div>
+                    <button class="scroll-btn scroll-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+                <div class="row-container">
+                    <h3 class="row-title">Government Colleges</h3>
+                    <div class="colleges-row" id="govt-ranking-row">
+                        <!-- Government colleges by ranking will be populated here -->
+                    </div>
+                    <button class="scroll-btn scroll-right">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3 class="footer-title">About Us</h3>
+                <p>College Predict is a platform designed to help students find and compare colleges across India. Our mission is to make college selection easier and more informed.</p>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-title">Connect With Us</h3>
+                <div class="social-icons">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 College Predict. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="scripts/profile.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/state-colleges.js"></script>
+</body>
+</html> 

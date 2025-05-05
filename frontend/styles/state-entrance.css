@@ -1,0 +1,442 @@
+.state-entrance-section {
+  padding: 4rem 0;
+  /*
+  background: linear-gradient(135deg, #1a1a1a, #2d3436);*/
+  background-color: rgb(7, 14, 32);
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.state-entrance-section .container {
+  width: 100%;
+  max-width: 1400px;
+  padding: 0 1.5rem;
+  margin: 0 auto;
+}
+
+.state-entrance-section h3 {
+  text-align: center;
+  margin-bottom: 3rem;
+  font-size: 2rem;
+  font-weight: 700;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  position: relative;
+}
+
+.state-entrance-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, #00f2fe, #4facfe);
+  border-radius: 2px;
+}
+
+.state-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+.state-card {
+  position: relative;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  overflow: hidden;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.state-card:hover {
+  transform: translateY(-5px) scale(1.01);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+}
+
+.state-header {
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  z-index: 2;
+}
+
+.state-icon-wrapper {
+  width: 40px;
+  height: 40px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(5px);
+}
+
+.state-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.state-header h4 {
+  margin: 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: white;
+  letter-spacing: 0.5px;
+}
+
+.state-content {
+  position: relative;
+  padding: 0 1rem 1rem;
+  z-index: 2;
+}
+
+.section-title {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+.exam-section {
+  margin-bottom: 1rem;
+}
+
+.exam-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.exam-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem;
+  color: white;
+  background: rgba(255, 255, 255, 0.1);
+  margin-bottom: 0.3rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.exam-list li:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateX(3px);
+}
+
+.exam-list li i {
+  color: #4facfe;
+  font-size: 0.8rem;
+}
+
+.college-section {
+  margin-bottom: 1rem;
+}
+
+.college-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+}
+
+.college-chip {
+  padding: 0.3rem 0.8rem;
+  background: rgba(79, 172, 254, 0.15);
+  color: #4facfe;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.college-chip:hover {
+  background: rgba(79, 172, 254, 0.25);
+  transform: translateY(-2px);
+}
+
+.card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.explore-btn {
+  width: 93%;
+  padding: 0.7rem;
+  background: linear-gradient(90deg , #00a1fe, rgb(74, 144, 226));
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.explore-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+}
+
+.explore-btn i {
+  transition: transform 0.3s ease;
+  font-size: 0.8rem;
+}
+
+.explore-btn:hover i {
+  transform: translateX(3px);
+}
+
+.quick-info {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.info-chip {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.6rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.75rem;
+}
+
+.info-chip i {
+  color: #4facfe;
+  font-size: 0.7rem;
+}
+
+/* Filter Buttons Styles */
+.filter-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.filter-btn {
+  padding: 0.8rem 1.5rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.filter-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
+
+.filter-btn.active {
+  background: linear-gradient(90deg,#00a1fe, rgb(74, 144, 226));
+  border-color: transparent;
+}
+
+@media (max-width: 1200px) {
+  .state-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 992px) {
+  .state-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .state-entrance-section {
+    padding: 2rem 0;
+  }
+
+  .state-entrance-section .container {
+    padding: 0 0.8rem;
+  }
+
+  .state-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+  }
+
+  .state-entrance-section h3 {
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .state-card {
+    border-radius: 12px;
+  }
+
+  .state-header {
+    padding: 0.8rem;
+  }
+
+  .state-icon-wrapper {
+    width: 32px;
+    height: 32px;
+  }
+
+  .state-icon {
+    width: 110%;
+    height: 110%;
+  }
+
+  .state-header h4 {
+    font-size: 1rem;
+  }
+
+  .state-content {
+    padding: 0 0.8rem 0.8rem;
+  }
+
+  .section-title {
+    font-size: 0.75rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .exam-list li {
+    padding: 0.4rem;
+    font-size: 0.8rem;
+  }
+
+  .college-chip {
+    padding: 0.25rem 0.6rem;
+    font-size: 0.75rem;
+  }
+
+  .explore-btn {
+    padding: 0.6rem;
+    font-size: 0.85rem;
+  }
+
+  .info-chip {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.7rem;
+  }
+
+  .filter-buttons {
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .filter-btn {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .state-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  .state-entrance-section {
+    padding: 1.2rem 0;
+  }
+
+  .state-entrance-section .container {
+    padding: 0 0.5rem;
+  }
+
+  .state-entrance-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+
+  .state-card {
+    max-width: 100%;
+    margin: 0;
+  }
+
+  .state-header {
+    padding: 0.5rem;
+  }
+
+  .state-icon-wrapper {
+    width: 24px;
+    height: 24px;
+  }
+
+  .state-icon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .state-header h4 {
+    font-size: 0.85rem;
+  }
+
+  .state-content {
+    padding: 0 0.5rem 0.5rem;
+  }
+
+  .section-title {
+    font-size: 0.7rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .exam-list li {
+    padding: 0.3rem;
+    font-size: 0.7rem;
+    margin-bottom: 0.2rem;
+  }
+
+  .college-chips {
+    gap: 0.2rem;
+  }
+
+  .college-chip {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+  }
+
+  .card-actions {
+    gap: 0.4rem;
+  }
+
+  .explore-btn {
+    padding: 0.4rem;
+    font-size: 0.7rem;
+  }
+
+  .info-chip {
+    padding: 0.2rem 0.4rem;
+    font-size: 0.65rem;
+  }
+
+  .filter-buttons {
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .filter-btn {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.75rem;
+  }
+} 
