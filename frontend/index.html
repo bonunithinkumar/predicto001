@@ -14,6 +14,7 @@
     <link rel="stylesheet" href="styles/options.css">
     <link rel="stylesheet" href="styles/animations.css">
     <link rel="stylesheet" href="styles/predictions.css">
+    <link rel="stylesheet" href="styles/state-entrance.css">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -194,7 +195,8 @@
       </section>
   
             <!-- Prediction Form Section -->
-      <section class="prediction-section">
+      <section class="prediction-section has-bg">
+        <div class="prediction-bg with-pattern"></div>
         <div class="container">
           <div class="form-container fade-in delay-1">
             <h3>Enter Your Details</h3>  
@@ -416,6 +418,394 @@
       <div id="results" class="results-container">
         <!-- College cards will be displayed here -->
       </div>
+
+      <!-- State Entrance Tests Section -->
+      <section class="state-entrance-section">
+        <div class="container">
+          <h3>Explore Engineering Entrance Tests And Colleges</h3>
+          
+          <div class="filter-buttons">
+            <button class="filter-btn active" data-filter="all">All Exams</button>
+            <button class="filter-btn" data-filter="state">State-wise</button>
+            <button class="filter-btn" data-filter="national">National</button>
+            <button class="filter-btn" data-filter="international">International</button>
+          </div>
+
+          <div class="state-grid">
+            <!-- Andhra Pradesh Card -->
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/ap-logo.png" alt="AP" class="state-icon">
+                </div>
+                <h4>Andhra Pradesh</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>AP EAPCET</li>
+                    <li><i class="fas fa-file-alt"></i>AP ECET</li>
+                    <li><i class="fas fa-file-alt"></i>AP PGECET</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">AU College</span>
+                    <span class="college-chip">JNTUA CEA</span>
+                    <span class="college-chip">SV University</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <a href="state-colleges.html?state=Andhra Pradesh" class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      May-June
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      2L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Telangana Card -->
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/ts-logo.png" alt="TS" class="state-icon">
+                </div>
+                <h4>Telangana</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>TS EAMCET</li>
+                    <li><i class="fas fa-file-alt"></i>TS ECET</li>
+                    <li><i class="fas fa-file-alt"></i>TS PGECET</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">JNTU Hyderabad</span>
+                    <span class="college-chip">OU Engineering</span>
+                    <span class="college-chip">CBIT</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <a href="state-colleges.html?state=Telangana" class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      June-July
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      1.5L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Karnataka Card -->
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/karnataka.png" alt="KA" class="state-icon">
+                </div>
+                <h4>Karnataka</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>KCET</li>
+                    <li><i class="fas fa-file-alt"></i>COMEDK</li>
+                    <li><i class="fas fa-file-alt"></i>KMAT</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">RVCE Bangalore</span>
+                    <span class="college-chip">BMSCE</span>
+                    <span class="college-chip">MSRIT</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <a href="state-colleges.html?state=Karnataka" class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      June-July
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      2.5L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Tamil Nadu Card -->
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/tn-logo.png" alt="TN" class="state-icon">
+                </div>
+                <h4>Tamil Nadu</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>TNEA</li>
+                    <li><i class="fas fa-file-alt"></i>TANCET</li>
+                    <li><i class="fas fa-file-alt"></i>TNPCEE</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">Anna University</span>
+                    <span class="college-chip">PSG Tech</span>
+                    <span class="college-chip">SSN College</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <a href="state-colleges.html?state=Tamil Nadu" class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      July-Aug
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      1.8L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Maharashtra Card -->
+            <!--
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/mh-logo.png" alt="MH" class="state-icon">
+                </div>
+                <h4>Maharashtra</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>MHT CET</li>
+                    <li><i class="fas fa-file-alt"></i>JEE Main</li>
+                    <li><i class="fas fa-file-alt"></i>GATE</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">COEP Pune</span>
+                    <span class="college-chip">VJTI Mumbai</span>
+                    <span class="college-chip">SPIT Mumbai</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <a href="state-colleges.html?state=Maharashtra" class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </a>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      May-June
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      3L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          -->
+            <!-- Gujarat Card -->
+            <!--
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/gj-logo.png" alt="GJ" class="state-icon">
+                </div>
+                <h4>Gujarat</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>GUJCET</li>
+                    <li><i class="fas fa-file-alt"></i>GTU CET</li>
+                    <li><i class="fas fa-file-alt"></i>ACPC</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">DAIICT</span>
+                    <span class="college-chip">LDCE</span>
+                    <span class="college-chip">MSU Baroda</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      June-July
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      1.2L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          -->
+            <!-- West Bengal Card -->
+            <!--
+            <div class="state-card" data-type="state">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/wb-logo.png" alt="WB" class="state-icon">
+                </div>
+                <h4>West Bengal</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>WBJEE</li>
+                    <li><i class="fas fa-file-alt"></i>JEE Main</li>
+                    <li><i class="fas fa-file-alt"></i>JELET</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">Jadavpur University</span>
+                    <span class="college-chip">IIT Kharagpur</span>
+                    <span class="college-chip">IIEST Shibpur</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      April-May
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      1L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          -->
+            <!-- National Level Card -->
+            <div class="state-card" data-type="national">
+              <div class="card-glass"></div>
+              <div class="state-header">
+                <div class="state-icon-wrapper">
+                  <img src="states/india-logo.png" alt="National" class="state-icon">
+                </div>
+                <h4>National Level</h4>
+              </div>
+              <div class="state-content">
+                <div class="exam-section">
+                  <div class="section-title">Major Exams</div>
+                  <ul class="exam-list">
+                    <li><i class="fas fa-file-alt"></i>JEE Main</li>
+                    <li><i class="fas fa-file-alt"></i>JEE Advanced</li>
+                    <li><i class="fas fa-file-alt"></i>BITSAT</li>
+                  </ul>
+                </div>
+                <div class="college-section">
+                  <div class="section-title">Premier Institutes</div>
+                  <div class="college-chips">
+                    <span class="college-chip">IIT Bombay</span>
+                    <span class="college-chip">IIT Delhi</span>
+                    <span class="college-chip">BITS Pilani</span>
+                  </div>
+                </div>
+                <div class="card-actions">
+                  <button class="explore-btn">
+                    <span>Explore</span>
+                    <i class="fas fa-arrow-right"></i>
+                  </button>
+                  <div class="quick-info">
+                    <span class="info-chip">
+                      <i class="fas fa-calendar"></i>
+                      Jan-July
+                    </span>
+                    <span class="info-chip">
+                      <i class="fas fa-users"></i>
+                      10L+ Students
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Scholarship Guide Section -->
+      <section class="scholarship-guide">
+        <div class="scholarship-content">
+          <h3>Scholarship Guide</h3>
+          <p>Discover various scholarship opportunities to fund your engineering education. Our comprehensive guide helps you navigate through government, institutional, and private scholarships available for engineering students. Don't let financial constraints hold you back from pursuing your dreams.</p>
+          <button class="scholarship-btn">Get Scholarship</button>
+        </div>
+      </section>
 
       <!-- Interactive FAQ Section -->
       <section class="faq-section">

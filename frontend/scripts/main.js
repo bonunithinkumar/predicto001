@@ -548,3 +548,41 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 });
+
+// State Entrance Section Filtering
+document.addEventListener('DOMContentLoaded', function() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.state-card');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Remove active class from all buttons
+            filterButtons.forEach(btn => btn.classList.remove('active'));
+            // Add active class to clicked button
+            button.classList.add('active');
+
+            const filterValue = button.getAttribute('data-filter');
+
+            if (filterValue === 'international') {
+                alert('International entrance exams section coming soon!');
+                return;
+            }
+
+            // Show/hide cards based on filter
+            cards.forEach(card => {
+                const cardType = card.getAttribute('data-type');
+                
+                if (filterValue === 'all') {
+                    card.style.display = 'block';
+                    setTimeout(() => card.style.opacity = '1', 10);
+                } else if (cardType === filterValue) {
+                    card.style.display = 'block';
+                    setTimeout(() => card.style.opacity = '1', 10);
+                } else {
+                    card.style.opacity = '0';
+                    setTimeout(() => card.style.display = 'none', 300);
+                }
+            });
+        });
+    });
+});

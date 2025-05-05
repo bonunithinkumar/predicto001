@@ -1,0 +1,395 @@
+.colleges-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 2rem;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.state-header {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 3rem;
+}
+
+.state-header h1 {
+    font-size: 2.5rem;
+    color: #333;
+    margin-bottom: 0px;
+}
+
+.state-header p {
+    margin-top: 0px;
+    font-size: 1.2rem;
+    color: #666;
+}
+
+/* Sections Styling */
+.colleges-section {
+    margin-bottom: 4rem;
+}
+
+.section-title {
+    font-size: 1.8rem;
+    color: #333 !important;
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    font-size: 24px !important;
+    /*
+    border-left: 4px solid #4a90e2;
+    */
+    border-left: 4px solid orange;
+}
+
+.row-container {
+    position: relative;
+    margin-bottom: 2rem;
+    padding: 0 25px;
+}
+
+.row-title {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1rem;
+    padding-left: 1rem;
+}
+
+.colleges-row {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    padding: 1rem;
+    scroll-behavior: smooth;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    position: relative;
+}
+
+.colleges-row::-webkit-scrollbar {
+    display: none;
+}
+
+/* Scroll Buttons */
+.scroll-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: white;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition: all 0.3s ease;
+}
+
+.scroll-btn:hover {
+    background: #fff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.scroll-btn.scroll-left {
+    left: -15px;
+}
+
+.scroll-btn.scroll-right {
+    right: -15px;
+}
+
+.scroll-btn i {
+    font-size: 1.2rem;
+    color: #333;
+}
+
+/* College Card Styling */
+.college-card {
+    flex: 0 0 300px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.college-card:hover {
+    transform: translateY(-5px);
+}
+
+.college-image {
+    width: 100%;
+    height: 160px;
+    object-fit: cover;
+}
+
+.college-content {
+    padding: 1.2rem;
+}
+
+.college-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.5rem;
+    line-height: 1.4;
+}
+
+.college-location {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+}
+
+.college-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.8rem;
+    margin-bottom: 1rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0.5rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.stat-value {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #333;
+}
+
+.stat-label {
+    font-size: 0.75rem;
+    color: #666;
+    margin-top: 0.2rem;
+}
+
+/* Student Review Rating */
+.rating-container {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.rating-stars {
+    color: #ffc107;
+    font-size: 0.9rem;
+}
+
+.rating-value {
+    font-weight: 600;
+    color: #333;
+}
+
+.review-count {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.college-features {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+}
+
+.feature-tag {
+    padding: 0.3rem 0.6rem;
+    background: #e9ecef;
+    border-radius: 15px;
+    font-size: 0.75rem;
+    color: #495057;
+}
+
+.college-actions {
+    display: flex;
+    gap: 0.8rem;
+}
+
+.college-btn {
+    flex: 1;
+    padding: 0.7rem;
+    border: none;
+    border-radius: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.primary-btn {
+    background: #4a90e2;
+    color: white;
+}
+
+.primary-btn:hover {
+    background: #357abd;
+}
+
+.secondary-btn {
+    background: #e9ecef;
+    color: #495057;
+}
+
+.secondary-btn:hover {
+    background: #dee2e6;
+}
+
+/* Mobile Responsive Updates */
+@media (max-width: 768px) {
+    .colleges-container {
+        padding: 1rem;
+    }
+
+    .state-header h1 {
+        font-size: 2rem;
+    }
+
+    .state-header p {
+        font-size: 1rem;
+    }
+
+    .section-title {
+        font-size: 1.5rem;
+    }
+
+    .row-title {
+        font-size: 1.1rem;
+    }
+
+    .college-card {
+        flex: 0 0 260px;
+    }
+
+    .college-content {
+        padding: 1rem;
+    }
+
+    .college-name {
+        font-size: 1rem;
+    }
+
+    .row-container {
+        padding: 0 20px;
+    }
+
+    .scroll-btn {
+        width: 35px;
+        height: 35px;
+        background: white;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .scroll-btn.scroll-left {
+        left: -10px;
+    }
+
+    .scroll-btn.scroll-right {
+        right: -10px;
+    }
+
+    .scroll-btn i {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 480px) and (max-width: 768px) {
+    .college-card {
+        flex: 0 0 calc(100% - 2rem);
+    }
+}
+
+@media (min-width: 640px) and (max-width: 768px) {
+    .college-card {
+        flex: 0 0 calc(50% - 1.5rem);
+    }
+}
+
+/* Small Mobile Devices */
+@media (max-width: 576px) {
+    .colleges-container {
+        padding: 0.8rem;
+    }
+
+    .state-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.3rem;
+    }
+
+    .college-card {
+        flex: 0 0 240px;
+    }
+
+    .college-image {
+        height: 140px;
+    }
+
+    .college-content {
+        padding: 0.8rem;
+    }
+
+    .college-name {
+        font-size: 0.95rem;
+    }
+
+    .college-location {
+        font-size: 0.85rem;
+    }
+
+    .stat-item {
+        padding: 0.4rem;
+    }
+
+    .stat-value {
+        font-size: 0.9rem;
+    }
+
+    .stat-label {
+        font-size: 0.7rem;
+    }
+
+    .feature-tag {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .college-btn {
+        padding: 0.6rem;
+        font-size: 0.85rem;
+    }
+
+    .row-container {
+        padding: 0 15px;
+    }
+
+    .scroll-btn {
+        width: 30px;
+        height: 30px;
+    }
+
+    .scroll-btn.scroll-left {
+        left: -8px;
+    }
+
+    .scroll-btn.scroll-right {
+        right: -8px;
+    }
+
+    .scroll-btn i {
+        font-size: 0.9rem;
+    }
+} 
